@@ -43,66 +43,63 @@ class UserMapper extends DataMapper{
         }
     }
 
-    // function update($data)
-    // {
-    //     $modelClass = self::MODEL_CLASS;
+    function update($data){
+        $modelClass = self::MODEL_CLASS;
 
-    //     $stmt = $this->_pdo->prepare('
-    //         UPDATE Users
-    //            SET user_name = ?
-    //              , mail_address = ?
-    //              , profile = ?
-    //              , coin = ?
-    //          WHERE user_id = ?
-    //     ');
-    //     $stmt->bindParam(1, $userName,  PDO::PARAM_STR);
-    //     $stmt->bindParam(2, $mailaddress,   PDO::PARAM_STR);
-    //     $stmt->bindParam(3, $profile, PDO::PARAM_STR);
-    //     $stmt->bindParam(4, $coin, PDO::PARAM_STR);
-    //     $stmt->bindParam(5, $userId, PDO::PARAM_INT);
+        $stmt = $this->_pdo->prepare('
+            UPDATE Users
+               SET user_name = ?
+                 , mail_address = ?
+                 , profile = ?
+                 , coin = ?
+             WHERE user_id = ?
+        ');
+        $stmt->bindParam(1, $userName,  PDO::PARAM_STR);
+        $stmt->bindParam(2, $mailaddress,   PDO::PARAM_STR);
+        $stmt->bindParam(3, $profile, PDO::PARAM_STR);
+        $stmt->bindParam(4, $coin, PDO::PARAM_STR);
+        $stmt->bindParam(5, $userId, PDO::PARAM_INT);
 
-    //     if (! is_array($data)) {
-    //         $data = array($data);
-    //     }
-    //     foreach ($data as $row) {
-    //         if (! $row instanceof $modelClass || ! $row->isValid()) {
-    //             throw new InvalidArgumentException;
-    //         }
-    //         $userId = $row->userId;
-    //         $userName  = $row->userName;
-    //         $mailaddress   = $row->mailaddress;
-    //         $profile = $row->profile;
-    //         $coin = $row->coin;
-    //         $stmt->execute();
-    //     }
-    // }
+        if (! is_array($data)) {
+            $data = array($data);
+        }
+        foreach ($data as $row) {
+            if (! $row instanceof $modelClass || ! $row->isValid()) {
+                throw new InvalidArgumentException;
+            }
+            $userId = $row->user_id;
+            $userName  = $row->user_name;
+            $mailaddress   = $row->mail_address;
+            $profile = $row->profile;
+            $coin = $row->coin;
+            $stmt->execute();
+        }
+    }
 
-    // function delete($data)
-    // {
-    //     $modelClass = self::MODEL_CLASS;
+    function delete($data){
+        $modelClass = self::MODEL_CLASS;
 
-    //     $stmt = $this->_pdo->prepare('
-    //         DELETE FROM Users
-    //          WHERE user_id = ?
-    //     ');
-    //     $stmt->bindParam(1, $userId, PDO::PARAM_INT);
+        $stmt = $this->_pdo->prepare('
+            DELETE FROM Users
+             WHERE user_id = ?
+        ');
+        $stmt->bindParam(1, $userId, PDO::PARAM_INT);
 
-    //     if (! is_array($data)) {
-    //         $data = array($data);
-    //     }
-    //     foreach ($data as $row) {
-    //         if (! $row instanceof $modelClass) {
-    //             throw new InvalidArgumentException;
-    //         }
-    //         $userId = $row->userId;
-    //         $stmt->execute();
-    //     }
-    // }
+        if (! is_array($data)) {
+            $data = array($data);
+        }
+        foreach ($data as $row) {
+            if (! $row instanceof $modelClass) {
+                throw new InvalidArgumentException;
+            }
+            $userId = $row->user_id;
+            $stmt->execute();
+        }
+    }
 
     //------------- 参照系クエリ ----------------
 
-    function find($userId)
-    {
+    function find($userId){
         $stmt = $this->_pdo->prepare('
             SELECT *
               FROM Users
@@ -115,8 +112,8 @@ class UserMapper extends DataMapper{
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
-    function findAll()
-    {
+
+    function findAll(){
         $stmt = $this->_pdo->query('
             SELECT *
               FROM Users

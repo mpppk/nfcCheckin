@@ -58,7 +58,6 @@ class UserMapperTest extends PHPUnit_Framework_TestCase{
 		// DBに保存されているかどうかを調べる
 		$user = $umapper->find($user->user_id);
 		$this->assertSame('updateUser', $user->user_name);
-
 	}
 
     public function testDeleteUser() {
@@ -95,9 +94,20 @@ class UserMapperTest extends PHPUnit_Framework_TestCase{
 		$umapper->insert($users);
 		$newUsers = $umapper->findAll()->fetchAll();
 		$this->assertEquals(2, count($newUsers));
-
 	}
 
+	public function testFindByName(){
+		$userName = "forFindByNameUser";
+		$userName2 = "otherUser";
+		$user = getUserInstance($userName);
+		$user2 = getUserInstance($userName2);
+		$umapper = new UserMapper(self::$pdo);
+
+		$umapper->insert($user);
+		$umapper->insert($user2);
+		$newUser = $umapper->findByName($user->user_name);
+		$this->assertEquals($newUser->user_name, $userName);
+	}
 
 }
 

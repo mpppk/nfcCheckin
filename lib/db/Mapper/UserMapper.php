@@ -119,4 +119,17 @@ class UserMapper extends DataMapper{
         return $this->_decorate($stmt);
     }
 
+    function findByName($userName){
+        $stmt = $this->_pdo->prepare('
+            SELECT *
+              FROM Users
+             WHERE user_name = ?
+        ');
+        $stmt->bindParam(1, $bindUserName);
+        $bindUserName = $userName;
+        $stmt->execute();
+
+        $this->_decorate($stmt);
+        return $stmt->fetch(PDO::FETCH_CLASS);
+    }
 }

@@ -28,10 +28,8 @@ class UserMapper extends DataMapper{
         }
         foreach ($data as $row) {
             if (! $row instanceof $modelClass || ! $row->isValid()) {
-                if(! $row instanceof $modelClass)   echo "";
                 throw new InvalidArgumentException;
             }
-            $userId  = $row->user_id;
             $userName   = $row->user_name;
             $mailaddress = $row->mail_address;
             $profile = $row->profile;

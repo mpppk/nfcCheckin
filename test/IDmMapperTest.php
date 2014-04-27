@@ -6,10 +6,10 @@ require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 
 // 指定したパラメータのidmインスタンスを返す
-function getIDmInstance($arg_userId = 1, $arg_idm = 12345){
+function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345){
 	$idm = new IDm;
 	$idm->user_id = $arg_userId;
-	$idm->idm = $arg_idm;
+	$idm->idm_no = $arg_idmNo;
 	return $idm;
 }
 
@@ -51,7 +51,7 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
 
 		// DBに保存されているかどうかを調べる
 		$newIdm = $imapper->find($idm->idm_id);
-		$this->assertSame($idm->idm, $newIdm->idm);
+		$this->assertSame($idm->idm_no, $newIdm->idm_no);
 	}
 
     public function testDeleteIDm() {
@@ -71,7 +71,7 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
 
 		$imapper->insert($idm);
 		$newIdm = $imapper->find($idm->idm_id);
-		$this->assertEquals($idm->idm, $newIdm->idm);
+		$this->assertEquals($idm->idm_no, $newIdm->idm_no);
 	}
 
 	public function testFindAllIDm(){
@@ -106,6 +106,6 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
 		$imapper = new IDmMapper(self::$pdo);
 		$imapper->insert($idm);
 		$newIdm = $imapper->findByIDm(12345);
-		$this->assertEquals($idm->idm, $newIdm->idm);
+		$this->assertEquals($idm->idm_no, $newIdm->idm_no);
 	}
 }

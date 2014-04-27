@@ -45,14 +45,14 @@ class IDmMapper extends DataMapper{
         return $this->_decorate($stmt);
     }
 
-    function findByIDm($arg_idm){
+    function findByIDm($arg_idmNo){
         $stmt = $this->_pdo->prepare('
             SELECT *
               FROM IDms
-             WHERE idm = ?
+             WHERE idm_no = ?
         ');
-        $stmt->bindParam(1, $bindIdm, PDO::PARAM_INT);
-        $bindIdm = $arg_idm;
+        $stmt->bindParam(1, $bindIdmNo, PDO::PARAM_INT);
+        $bindIdmNo = $arg_idmNo;
         $stmt->execute();
         $this->_decorate($stmt);
         return $stmt->fetch(PDO::FETCH_CLASS);
@@ -78,11 +78,11 @@ class IDmMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $pdo->prepare('
-            INSERT INTO IDms(user_id, idm)
+            INSERT INTO IDms(user_id, idm_no)
             VALUES (?, ?)
         ');
         $stmt->bindParam(1, $userId,   PDO::PARAM_STR);
-        $stmt->bindParam(2, $idm, PDO::PARAM_STR);
+        $stmt->bindParam(2, $idmNo, PDO::PARAM_STR);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -92,7 +92,7 @@ class IDmMapper extends DataMapper{
                 throw new InvalidArgumentException;
             }
             $userId   = $row->user_id;
-            $idm = $row->idm;
+            $idmNo = $row->idm_no;
             $stmt->execute();
 
             //autoincrementな主キーをオブジェクト側へ反映
@@ -106,11 +106,11 @@ class IDmMapper extends DataMapper{
         $stmt = $this->_pdo->prepare('
             UPDATE IDms
                SET user_id = ?
-                 , idm = ?
+                 , idm_no = ?
              WHERE idm_id = ?
         ');
         $stmt->bindParam(1, $userId,  PDO::PARAM_STR);
-        $stmt->bindParam(2, $idm,   PDO::PARAM_STR);
+        $stmt->bindParam(2, $idmNo,   PDO::PARAM_STR);
         $stmt->bindParam(3, $idmId, PDO::PARAM_STR);
 
         if (! is_array($data)) {
@@ -121,7 +121,7 @@ class IDmMapper extends DataMapper{
                 throw new InvalidArgumentException;
             }
             $userId = $row->user_id;
-            $idm  = $row->idm;
+            $idmNo  = $row->idm_no;
             $idmId   = $row->idm_id;
             $stmt->execute();
         }

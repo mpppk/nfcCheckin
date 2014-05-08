@@ -81,8 +81,8 @@ class IDmMapper extends DataMapper{
             INSERT INTO IDms(user_id, idm_no)
             VALUES (?, ?)
         ');
-        $stmt->bindParam(1, $userId,   PDO::PARAM_STR);
-        $stmt->bindParam(2, $idmNo, PDO::PARAM_STR);
+        $stmt->bindParam(1, $userId,   PDO::PARAM_INT);
+        $stmt->bindParam(2, $idmNo, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -109,9 +109,9 @@ class IDmMapper extends DataMapper{
                  , idm_no = ?
              WHERE idm_id = ?
         ');
-        $stmt->bindParam(1, $userId,  PDO::PARAM_STR);
-        $stmt->bindParam(2, $idmNo,   PDO::PARAM_STR);
-        $stmt->bindParam(3, $idmId, PDO::PARAM_STR);
+        $stmt->bindParam(1, $userId,  PDO::PARAM_INT);
+        $stmt->bindParam(2, $idmNo,   PDO::PARAM_INT);
+        $stmt->bindParam(3, $idmId, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);

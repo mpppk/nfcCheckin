@@ -21,7 +21,7 @@ class UserMapper extends DataMapper{
         $stmt->bindParam(1, $userName,   PDO::PARAM_STR);
         $stmt->bindParam(2, $mailaddress, PDO::PARAM_STR);
         $stmt->bindParam(3, $profile, PDO::PARAM_STR);
-        $stmt->bindParam(4, $coin, PDO::PARAM_STR);
+        $stmt->bindParam(4, $coin, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -55,7 +55,7 @@ class UserMapper extends DataMapper{
         $stmt->bindParam(1, $userName,  PDO::PARAM_STR);
         $stmt->bindParam(2, $mailaddress,   PDO::PARAM_STR);
         $stmt->bindParam(3, $profile, PDO::PARAM_STR);
-        $stmt->bindParam(4, $coin, PDO::PARAM_STR);
+        $stmt->bindParam(4, $coin, PDO::PARAM_INT);
         $stmt->bindParam(5, $userId, PDO::PARAM_INT);
 
         if (! is_array($data)) {

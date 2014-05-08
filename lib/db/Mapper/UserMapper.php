@@ -110,7 +110,6 @@ class UserMapper extends DataMapper{
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
-
     function findAll(){
         $stmt = $this->_pdo->query('
             SELECT *
@@ -133,3 +132,4 @@ class UserMapper extends DataMapper{
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 }
+

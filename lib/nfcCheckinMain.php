@@ -7,17 +7,35 @@ require_once $rootPass. 'lib/db/dbfunctions.php';
 require_once $rootPass. 'lib/db/dbFacade.php';
 require_once $rootPass. 'lib/nfcParser.php';
 
-$pdo = getPDO('test');
+// オプションをパース
+$longopts = array("mock", "nfcpypath:", "test");
+$options = getopt("", $longopts);
 
-// DB clean up
-$pdo->beginTransaction();
-$pdo->query('DELETE FROM CheckinLogs');
-$pdo->commit();
+// 使用するDBの決定
+$dbName = "";
+if(array_key_exists('test', $options))	$dbName = 'test';
+$pdo = getPDO($dbName);
+
+// テスト時の初期化処理
+if(array_key_exists('test', $options))	testInit();
+
+$nfcpyPath = 'tagtool.py';
+if(array_key_exists('nfcpypath', $options))	$nfcpyPath = $options["nfcpypath"];
+if(array_key_exists('mock', $options))	$nfcpyPath = "mock.py";
 
 while (true) {
-	$result = tagToolsParser(exec('python tagTools.py'));
+	$result = tagToolsParser(exec('python '. htmlspecialchars($nfcpyPath)));
 	$dbfacade = DBFacade::I($pdo);
 	$dbfacade->checkin($result['IDm']);
 	echo "checkin. idm(". $result['IDm']. ")\n";
 	sleep(5);
+}
+
+// DB clean up
+function testInit(){
+	$pdo = getPDO('test');
+
+	$pdo->beginTransaction();
+	$pdo->query('DELETE FROM CheckinLogs');
+	$pdo->commit();
 }

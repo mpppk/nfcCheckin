@@ -4,6 +4,7 @@ $rootPass = dirname(__FILE__). '/../';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
+require_once $rootPass. 'lib/db/dbFacade.php';
 require_once $rootPass. 'lib/nfcParser.php';
 
 $pdo = getPDO('test');
@@ -14,7 +15,8 @@ $pdo->query('DELETE FROM CheckinLogs');
 $pdo->commit();
 
 while (true) {
-	sleep(5);
 	$result = tagToolsParser(exec('python tagTools.py'));
-	var_dump($result);
+	$dbfacade = DBFacade::I($pdo);
+	$dbfacade->checkin($result['IDm']);
+	sleep(5);
 }

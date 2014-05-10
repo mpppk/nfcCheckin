@@ -126,4 +126,8 @@ class IDmMapper extends DataMapper{
             $stmt->execute();
         }
     }
+
+    function hasIdmNo($idmNo){
+        return count($this->findByIDm($idmNo)) != 0;
+    }
 }

@@ -108,4 +108,13 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
 		$newIdm = $imapper->findByIDm(12345);
 		$this->assertEquals($idm->idm_no, $newIdm->idm_no);
 	}
+
+	// 指定したIDmを持っている場合、hasIDmが正しく動作するかのテスト
+	public function testhasIDmNo(){
+		$idm = getIDmInstance(1);
+		$imapper = new IDmMapper(self::$pdo);
+		$imapper->insert($idm);
+		$this->assertEquals(true, $imapper->hasIdmNo($idm->idm_no));
+	}
+
 }

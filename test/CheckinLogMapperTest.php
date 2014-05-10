@@ -42,7 +42,7 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
 
 		$log = getLogInstance();
         $cmapper->insert($log);
-        $cmapper->delete($log);
+        $cmapper->delete($log->checkin_id);
         $allLogs = $cmapper->findAll()->fetchAll();
 
         $this->assertEmpty($allLogs);

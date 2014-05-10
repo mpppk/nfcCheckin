@@ -4,22 +4,18 @@ require_once (dirname(__FILE__) . "/DataMapper.php");
 class CheckinLogMapper extends DataMapper{
     const MODEL_CLASS = 'CheckinLog';
 
-    public function delete($data){
-        $modelClass = self::MODEL_CLASS;
+    public function delete($arg_checkinIds){
         $stmt = $this->_pdo->prepare('
             DELETE FROM CheckinLogs
              WHERE checkin_id = ?
         ');
         $stmt->bindParam(1, $checkinId, PDO::PARAM_INT);
 
-        if (! is_array($data)) {
-            $data = array($data);
+        if (! is_array($arg_checkinIds)) {
+            $arg_checkinIds = array($arg_checkinIds);
         }
-        foreach ($data as $row) {
-            if (! $row instanceof $modelClass) {
-                throw new InvalidArgumentException;
-            }
-            $checkinId = $row->checkin_id;
+        foreach ($arg_checkinIds as $arg_checkinId) {
+            $checkinId = $arg_checkinId;
             $stmt->execute();
         }
     }

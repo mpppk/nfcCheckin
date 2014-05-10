@@ -18,5 +18,6 @@ while (true) {
 	$result = tagToolsParser(exec('python tagTools.py'));
 	$dbfacade = DBFacade::I($pdo);
 	$dbfacade->checkin($result['IDm']);
+	echo "checkin. idm(". $result['IDm']. ")\n";
 	sleep(5);
 }

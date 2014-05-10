@@ -19,7 +19,8 @@ $pdo = getPDO($dbName);
 // テスト時の初期化処理
 if(array_key_exists('test', $options))	testInit();
 
-$nfcpyPath = 'tagtool.py';
+// 読み込むpythonファイルの指定
+$nfcpyPath = $rootPass. 'nfcpy/examples/tagtool.py';
 if(array_key_exists('nfcpypath', $options))	$nfcpyPath = $options["nfcpypath"];
 if(array_key_exists('mock', $options))	$nfcpyPath = "mock.py";
 

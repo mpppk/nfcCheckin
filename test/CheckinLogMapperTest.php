@@ -64,7 +64,6 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
         $cmapper->insert($log);
         $cmapper->insert($log);
 		$newLogs = $cmapper->findAll()->fetchAll();
-		var_dump($newLogs);
 		$this->assertEquals(2, count($newLogs));
 	}
 

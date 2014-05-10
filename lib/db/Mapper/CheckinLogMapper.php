@@ -78,9 +78,6 @@ class CheckinLogMapper extends DataMapper{
         $row->checkin_id = $pdo->lastInsertId();
     }
 
-    /**
-     * @todo Implement testModCheckinTime().
-     */
     public function changeCheckinTime($data){
         $modelClass = self::MODEL_CLASS;
 

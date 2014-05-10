@@ -25,11 +25,13 @@ if(array_key_exists('nfcpypath', $options))	$nfcpyPath = $options["nfcpypath"];
 if(array_key_exists('mock', $options))	$nfcpyPath = "mock.py";
 
 while (true) {
+	sleep(5);
 	$result = tagToolsParser(exec('python '. htmlspecialchars($nfcpyPath)));
+	if(!isset($result['IDm']))	continue;
+	
 	$dbfacade = DBFacade::I($pdo);
 	$dbfacade->checkin($result['IDm']);
 	echo "checkin. idm(". $result['IDm']. ")\n";
-	sleep(5);
 }
 
 // DB clean up

@@ -1,5 +1,7 @@
 <?php
-require_once (dirname(__FILE__) . "/DataMapper.php");
+$rootPass = dirname(__FILE__). '/../../../';
+require_once ($rootPass. "lib/db/Mapper/DataMapper.php");
+require_once ($rootPass. "lib/db/Mapper/IDmMapper.php");
 
 class CheckinLogMapper extends DataMapper{
     const MODEL_CLASS = 'CheckinLog';
@@ -40,6 +42,22 @@ class CheckinLogMapper extends DataMapper{
               WHERE idm_id = ?
         ');
         $stmt->bindParam(1, $idmId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $this->_decorate($stmt);
+        return $stmt->fetch(PDO::FETCH_CLASS);
+    }
+
+    public function findByIDmNo($idmNo){
+        $imapper = new IDmMapper($this->_pdo);
+        $idm = $imapper->findByIDm($idmNo);
+        $stmt = $this->_pdo->prepare('
+            SELECT *
+              FROM CheckinLogs
+              WHERE idm_id = ?
+        ');
+        $stmt->bindParam(1, $idmId, PDO::PARAM_INT);
+        $idmId = $idm->idm_id;
         $stmt->execute();
 
         $this->_decorate($stmt);

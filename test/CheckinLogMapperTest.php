@@ -2,6 +2,8 @@
 $rootPass = dirname(__FILE__). '/../';
 // require_once 'PHPUnit/Autoload.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
+require_once $rootPass. 'lib/db/Mapper/IDmMapper.php';
+require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 
@@ -9,6 +11,14 @@ function getLogInstance($idmId = 1){
 	$log = new CheckinLog;
 	$log->idm_id = $idmId;
 	return $log;
+}
+
+// 指定したパラメータのidmインスタンスを返す
+function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345){
+	$idm = new IDm;
+	$idm->user_id = $arg_userId;
+	$idm->idm_no = $arg_idmNo;
+	return $idm;
 }
 
 class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
@@ -25,6 +35,7 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
         // DB clean up
         $pdo->beginTransaction();
         $pdo->query('DELETE FROM CheckinLogs');
+        $pdo->query('DELETE FROM IDms');
         $pdo->commit();
     }
 
@@ -63,6 +74,19 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
 		$log = getLogInstance();
         $cmapper->insert($log);
 		$newLog = $cmapper->findByIDmId($log->idm_id);
+		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
+	}
+
+	public function testFindLogByIDmNo(){
+		$imapper = new IDmMapper(self::$pdo);
+		$idm = getIDmInstance();
+		$imapper->insert($idm);
+
+		$log = getLogInstance($idm->idm_id);
+
+		$cmapper = new CheckinLogMapper(self::$pdo);
+        $cmapper->insert($log);
+		$newLog = $cmapper->findByIDmNo($idm->idm_no);
 		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
 	}
 

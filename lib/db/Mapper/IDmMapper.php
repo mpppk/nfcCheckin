@@ -47,7 +47,7 @@ class IDmMapper extends DataMapper{
               FROM IDms
              WHERE idm_no = ?
         ');
-        $stmt->bindParam(1, $bindIdmNo, PDO::PARAM_INT);
+        $stmt->bindParam(1, $bindIdmNo, PDO::PARAM_STR);
         $bindIdmNo = $arg_idmNo;
         $stmt->execute();
         $this->_decorate($stmt);
@@ -78,7 +78,7 @@ class IDmMapper extends DataMapper{
             VALUES (?, ?)
         ');
         $stmt->bindParam(1, $userId,   PDO::PARAM_INT);
-        $stmt->bindParam(2, $idmNo, PDO::PARAM_INT);
+        $stmt->bindParam(2, $idmNo, PDO::PARAM_STR);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -106,7 +106,7 @@ class IDmMapper extends DataMapper{
              WHERE idm_id = ?
         ');
         $stmt->bindParam(1, $userId,  PDO::PARAM_INT);
-        $stmt->bindParam(2, $idmNo,   PDO::PARAM_INT);
+        $stmt->bindParam(2, $idmNo,   PDO::PARAM_STR);
         $stmt->bindParam(3, $idmId, PDO::PARAM_INT);
 
         if (! is_array($data)) {
@@ -124,6 +124,6 @@ class IDmMapper extends DataMapper{
     }
 
     function hasIDmNo($idmNo){
-        return count($this->findByIDm($idmNo)) != 0;
+        return $this->findByIDm($idmNo) != false;
     }
 }

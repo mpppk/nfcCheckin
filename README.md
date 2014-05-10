@@ -11,7 +11,7 @@
 * sqlite3
 
 ## そのた
-PaSoRi(Amazonとかで買ってね)
+* PaSoRi(Amazonとかで買ってね)
 
 # どうにゅう
 

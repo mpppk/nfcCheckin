@@ -57,6 +57,15 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
 	}
 
+	public function testFindLogByIDmId(){
+		$cmapper = new CheckinLogMapper(self::$pdo);
+
+		$log = getLogInstance();
+        $cmapper->insert($log);
+		$newLog = $cmapper->findByIDmId($log->idm_id);
+		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
+	}
+
 	public function testFindAllLog(){
 		$cmapper = new CheckinLogMapper(self::$pdo);
 

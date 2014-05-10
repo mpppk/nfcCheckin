@@ -33,6 +33,19 @@ class CheckinLogMapper extends DataMapper{
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
+    public function findByIDmId($idmId){
+        $stmt = $this->_pdo->prepare('
+            SELECT *
+              FROM CheckinLogs
+              WHERE idm_id = ?
+        ');
+        $stmt->bindParam(1, $idmId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $this->_decorate($stmt);
+        return $stmt->fetch(PDO::FETCH_CLASS);
+    }
+
     public function findAll(){
         $stmt = $this->_pdo->query('
             SELECT *

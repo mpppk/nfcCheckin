@@ -1,0 +1,3 @@
+[submodule "nfcpy"]
+	path = nfcpy
+	url = https://github.com/kapt/nfcpy.git

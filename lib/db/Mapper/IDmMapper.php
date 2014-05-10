@@ -4,22 +4,18 @@ require_once (dirname(__FILE__) . "/DataMapper.php");
 class IDmMapper extends DataMapper{
     const MODEL_CLASS = 'IDm';
 
-    function delete($data){
-        $modelClass = self::MODEL_CLASS;
+    function delete($arg_idmIds){
         $stmt = $this->_pdo->prepare('
             DELETE FROM IDms
              WHERE idm_id = ?
         ');
         $stmt->bindParam(1, $idmId, PDO::PARAM_INT);
 
-        if (! is_array($data)) {
-            $data = array($data);
+        if (! is_array($arg_idmIds)) {
+            $arg_idmIds = array($arg_idmIds);
         }
-        foreach ($data as $row) {
-            if (! $row instanceof $modelClass) {
-                throw new InvalidArgumentException;
-            }
-            $idmId = $row->idm_id;
+        foreach ($arg_idmIds as $arg_idmId) {
+            $idmId = $arg_idmId;
             $stmt->execute();
         }
     }

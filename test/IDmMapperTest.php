@@ -59,7 +59,7 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
         $imapper = new IDmMapper(self::$pdo);
 
         $imapper->insert($idm);
-        $imapper->delete($idm);
+        $imapper->delete($idm->idm_id);
         $allIdms = $imapper->findAll()->fetchAll();
 
         $this->assertEmpty($allIdms);

@@ -3,7 +3,9 @@ $rootPass = dirname(__FILE__). '/../../';
 // require_once 'PHPUnit/Autoload.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
+require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
+require_once $rootPass. 'lib/db/Mapper/IDmMapper.php';
 
 function getLogInstance($idmId = 1){
 	$log = new CheckinLog;
@@ -26,20 +28,6 @@ class DBFacade{
         }
 	 	self::$pdo = $arg_pdo;
         return self::$instance;
-    }
-
-	// テスト開始時にテスト用のDBに接続する
-	static function init(){
-		$pdo = self::$pdo = getPDO('test');
-	}
-
-    //テストの度にDBをクリーンな状態に戻す。
-    function setUp(){
-        $pdo = self::$pdo;
-        // DB clean up
-        $pdo->beginTransaction();
-        $pdo->query('DELETE FROM CheckinLogs');
-        $pdo->commit();
     }
 
 	public function checkin($idmNo){

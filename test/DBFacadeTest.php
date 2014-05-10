@@ -49,5 +49,11 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		$dbfacade->checkin($idm->idm_no);
 		$log = $cmapper->findByIDmId($idm->idm_id);
 		$this->assertEquals($log->idm_id, $idm->idm_id);
+
+		// IDmテーブルに存在しないIDmでチェックインした場合
+		$dbfacade->checkin('unknownIDm');
+		$log = $cmapper->findByIDmId($idm->idm_id);
+		$this->assertEquals($log->idm_id, $idm->idm_id);
+
 	}
 }

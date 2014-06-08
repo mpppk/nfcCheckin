@@ -1,5 +1,6 @@
 <?php
 $rootPass = dirname(__FILE__). '/../';
+$domainName = 'http://192.168.33.10:8888/';
 // require_once 'PHPUnit/Autoload.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
@@ -31,7 +32,10 @@ while (true) {
 	
 	$dbfacade = DBFacade::I($pdo);
 	$dbfacade->checkin($result['IDm']);
-	echo "checkin. idm(". $result['IDm']. ")\n";
+	// echo ($domainName. "loadLog");
+	$res = file_get_contents($domainName. "loadLog");
+	// $responce = http_get($domainName + '/loadLog');
+	// echo "checkin. idm(". $result['IDm']. ")\n";
 }
 
 // DB clean up

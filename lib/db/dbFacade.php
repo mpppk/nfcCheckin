@@ -49,4 +49,30 @@ class DBFacade{
 		$log->idm_id = $idm->idm_id;
 		$cmapper->insert($log);
 	}
+
+    public function findAllWithUser(){
+        $stmt = self::$pdo->query('
+            SELECT
+              user_name,
+              checkin_time
+            FROM
+              CheckinLogs
+            LEFT JOIN
+              IDms
+            ON 
+              CheckinLogs.idm_id = IDms.idm_id
+            LEFT JOIN
+              Users
+            ON
+              IDms.user_id = Users.user_id;
+        ');
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+	public function getAllLog(){
+		$result = $this->findAllWithUser();
+		return $result;
+
+	}
+
 }

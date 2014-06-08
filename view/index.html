@@ -8,16 +8,25 @@
 
     <!-- 依存ファイルの読み込み -->
     <script src="lib/jquery/jquery-2.1.1.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
     <!-- hifiveフレームワークの読み込み -->
     <script src="lib/h5/ejs-1.0.h5mod.js"></script>
     <script src="lib/h5/h5-1.1.10.dev.js"></script><!-- 開発時は h5.dev.js を読み込む-->
-    <script src="controller/step3.js"></script>
-    <title>hifive Hello World</title>
+    <script src="controller/HelloWorldController.js"></script>
+    <script src="controller/LogsController.js"></script>
+    <script src="controller/PageController.js"></script>
+    <title>hifive Hello World!</title>
   </head>
   <body>
       <div id="container">
-          <input type="button" id="btn" value="hello world!" />
+        <ul>
+          <li><a href="/log">log</a></li>
+          <li><a href="/log">user</a></li>
+          <li><a href="/log">sync</a></li>
+          <li><a href="/log">login</a></li>
+        </ul>
+        <ul id="logs"></ul>
+        <input type="button" id="btn" value="hello world!" />
       </div>
   </body>
 </html>

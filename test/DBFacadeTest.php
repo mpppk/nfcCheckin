@@ -54,6 +54,24 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		$dbfacade->checkin('unknownIDm');
 		$log = $cmapper->findByIDmId($idm->idm_id);
 		$this->assertEquals($log->idm_id, $idm->idm_id);
+	}
 
+	public function testGetAllLog(){
+		$imapper = new IDmMapper(self::$pdo);
+		$cmapper = new CheckinLogMapper(self::$pdo);
+
+		// IDmテーブルにレコードを追加
+		$idm = getIDmInstance();
+		$imapper->insert($idm);
+
+		// すでにIDmテーブルに存在するIDmでチェックインした場合
+		$dbfacade = DBFacade::I(self::$pdo);
+		$dbfacade->checkin($idm->idm_no);
+
+		// IDmテーブルに存在しないIDmでチェックインした場合
+		$dbfacade->checkin('unknownIDm');
+
+		$dbfacade = DBFacade::I(self::$pdo);
+		var_dump( $dbfacade->getAllLog() );
 	}
 }

@@ -4,8 +4,11 @@ $(function() {
         _helloWorldController: helloWorldController,
         _logsController: logsController,
         _userController: userController,
+        _paymentController: paymentController,
+        _depositController: depositController,
         _drawerController: drawerController,
         _navController: navController,
+        _loginController: loginController,
         loadLogSocket: io.connect('http://192.168.33.10:3000'),
         helloSocket: io.connect('http://192.168.33.10:3000'),
         __meta:{
@@ -18,39 +21,59 @@ $(function() {
             _userController:{
                 rootElement: '#user'
             },
+            _paymentController:{
+                rootElement: '#payment'
+            },
+            _depositController:{
+                rootElement: '#deposit'
+            },
             _drawerController:{
                 rootElement: '#sidr'
             },
             _navController:{
                 rootElement: '#navbar'
+            },
+            _loginController:{
+                rootElement: '#login'
             }
         },
-        '{rootElement} pushHello': function() {
-    		this.helloSocket.emit('emit_from_client', 'hello!');
-	       	alert('test');
-		},
+
         load: function(){
-            console.log('in pageController load');
             this._logsController.load();
         },
         '{rootElement} moveToLogs': function(){
             this.hideWithout(this._logsController);
             $.sidr('close', 'sidr');
-            console.log('callled moveToLogs in PageController');
             // ログ画面以外のDOM要素を隠す処理
         },
         '{rootElement} moveToYou': function(){
             var tempUserID = 31;// 実際はログインしているユーザのIDを利用する
-            console.log('callled moveToYou in PageController');
             $.sidr('close', 'sidr');
             this._userController.load(tempUserID);
             this.hideWithout(this._userController);
             // ユーザ画面以外のDOM要素を隠す処理
         },
+        '{rootElement} moveToPayment': function(){
+            this.hideWithout(this._paymentController);
+            $.sidr('close', 'sidr');
+            // ログ画面以外のDOM要素を隠す処理
+        },
+        '{rootElement} moveToDeposit': function(){
+            this.hideWithout(this._depositController);
+            $.sidr('close', 'sidr');
+            // ログ画面以外のDOM要素を隠す処理
+        },
+        '{rootElement} moveToLogin': function(){
+            this.hideWithout(this._loginController);
+            // ログ画面以外のDOM要素を隠す処理
+        },
+
         hideWithout: function(controller){// 引数に指定した要素以外の各ページに対応するDOM要素を全部隠す
             this._logsController.hide();
             this._userController.hide();
-            
+            this._paymentController.hide();
+            this._depositController.hide();
+            this._loginController.hide();
             controller.show();
         }
     };

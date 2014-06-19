@@ -35,14 +35,14 @@ $(function() {
             this.trigger('moveToYou')
         },
 
-        '#drawerSync click': function() {
+        '#drawerPayment click': function() {
             console.log('sync pushed');
-            this.trigger('moveToSync')
+            this.trigger('moveToPayment')
         },
 
-        '#drawerCalendar click': function() {
-            console.log('calendar pushed');
-            this.trigger('moveToCalendar')
+        '#drawerDeposit click': function() {
+            console.log('sync pushed');
+            this.trigger('moveToDeposit')
         }
 
     }

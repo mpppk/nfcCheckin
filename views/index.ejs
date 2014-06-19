@@ -13,7 +13,7 @@
 		<script src="lib/sidr/jquery.sidr.min.js"></script>
 		<script src="lib/underscore/underscore-min.js"></script>
 		<script src="lib/moment/moment-with-langs.min.js"></script>
-		<script src="lib/CLNDR/clndr.min.js"></script>
+		<!-- // <script src="lib/CLNDR/clndr.min.js"></script> -->
 		<script src="/socket.io/socket.io.js"></script>
 
 		<!-- fullCalendarの読み込み -->
@@ -37,6 +37,8 @@
 		<script src="lib/h5/ejs_fulljslint.js"></script>
 		
 		<!-- コントローラの読み込み(順番に注意) -->
+		<script src="controller/PaymentController.js"></script>
+		<script src="controller/DepositController.js"></script>
 		<script src="controller/CModalController.js"></script>
 		<script src="controller/CalendarController.js"></script>
 		<script src="controller/HelloWorldController.js"></script>
@@ -44,29 +46,43 @@
 		<script src="controller/UserController.js"></script>
 		<script src="controller/DrawerController.js"></script>
 		<script src="controller/NavController.js"></script>
+		<script src="controller/LoginController.js"></script>
 		<!-- <script src="logic/LogsLogic.js"></script> -->
 		<script src="controller/PageController.js"></script>
 
 		<!-- ここまで必要ファイルの読み込み -->
 
-		<title>hifive Hello World!</title>
+		<title>nfcCheckin</title>
 	</head>
 	<body>
 		<!-- ナビバーの設定 -->
+		<!-- <nav id="navbar" class="navbar navbar-inverse" role="navigation"> -->
 		<nav id="navbar" class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<ul class="nav navbar-nav">
-					<li><a id="simple-menu" href="#sidr">menu</a></li>
+					<li><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-th"></span> menu</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="loginbtn" href="#login"><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-log-in"> login</a></li>
 				</ul>
 			</div>
 		</nav>
 
 		<div id="container">
+
+			<div id="logs">
+				<table class="table table-striped" id="logsTable">
+				</table>
+				<ul id="logsList"></ul>
+			</div><!-- #logs -->
+
 			<div id="sidr">
 				<!-- Your content -->
 				<ul>
 					<li id='drawerLogs'><a href="#logs">Logs</a></li>
 					<li id='drawerYou'><a href="#you">You</a></li>
+					<li id='drawerPayment'><a href="#you">Payment</a></li>
+					<li id='drawerDeposit'><a href="#you">Deposit</a></li>
 
 				</ul>
 			</div><!-- #sidr -->
@@ -75,6 +91,7 @@
 					<div id="userName"></div>
 					<div id="userProfile"></div>
 					<div id="userLOCA"></div>
+					<button id="syncICbtn" class="btn btn-default" type="button">add new nfc device</button>
 					<button id="calendarbtn" class="btn btn-default" type="button">show calendar</button>
 				</div>
 				<div id="calendar">
@@ -103,26 +120,10 @@
 					</div><!-- auto modal -->
 				</div><!-- #calendar -->
 			</div><!-- #user -->
-
-			<div id="logs">
-				<ul id="logsList"></ul>
-			</div><!-- #logs -->
-
-			<input class="btn btn-default" type="button" id="btn" value="hello world!" />
+			<div id="payment">paymentやで</div>
+			<div id="deposit">depositやで</div>
+			<!-- <input class="btn btn-default" type="button" id="btn" value="hello world!" /> -->
 		</div><!-- #container -->
-
-		<table class="table table-striped">
-		  <tr>
-		    <td>りんご</td>
-		    <td>甘酸っぱい</td>
-		    <td>おおむね赤</td>
-		  </tr>
-		  <tr>
-		    <td>なつみかん</td>
-		    <td>かなり酸っぱいと思う</td>
-		    <td>たいてい黄色</td>
-		  </tr>
-		</table>
 
 		<div id="login">
 			<form action="/login" method="post">
@@ -143,12 +144,6 @@
 	<script>
 	var g_start;//fullCalendarがクリックされた時のstart
 	var g_end;//fullCalendarがクリックされた時のend
-
-	// $('#auto_modal').on('shown.bs.modal', function () {
-	//     console.log('on modal shown');
-	//     $('#chargeInput').focus();
-	// });
-
 	</script>
 </html>
 

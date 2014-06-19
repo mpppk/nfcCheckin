@@ -7,10 +7,12 @@ require_once (dirname(__FILE__) . "/DataModel.php");
  * @group model
  */
 class User extends DataModel{
+    
     protected static $_schema = array(
         'user_id'   => parent::INTEGER
       , 'user_name'    => parent::STRING
       , 'mail_address'     => parent::STRING
+      , 'password'     => parent::STRING
       , 'profile'   => parent::STRING
       , 'coin' => parent::INTEGER
     );

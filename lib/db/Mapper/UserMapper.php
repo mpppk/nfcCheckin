@@ -15,13 +15,14 @@ class UserMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $pdo->prepare('
-            INSERT INTO Users(user_name, mail_address, profile, coin)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO Users(user_name, mail_address, password, profile, coin)
+            VALUES (?, ?, ?, ?, ?)
         ');
         $stmt->bindParam(1, $userName,   PDO::PARAM_STR);
         $stmt->bindParam(2, $mailaddress, PDO::PARAM_STR);
-        $stmt->bindParam(3, $profile, PDO::PARAM_STR);
-        $stmt->bindParam(4, $coin, PDO::PARAM_INT);
+        $stmt->bindParam(3, $password, PDO::PARAM_STR);
+        $stmt->bindParam(4, $profile, PDO::PARAM_STR);
+        $stmt->bindParam(5, $coin, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -32,6 +33,7 @@ class UserMapper extends DataMapper{
             }
             $userName   = $row->user_name;
             $mailaddress = $row->mail_address;
+            $password = $row->password;
             $profile = $row->profile;
             $coin = $row->coin;
             $stmt->execute();
@@ -48,15 +50,17 @@ class UserMapper extends DataMapper{
             UPDATE Users
                SET user_name = ?
                  , mail_address = ?
+                 , password = ?
                  , profile = ?
                  , coin = ?
              WHERE user_id = ?
         ');
         $stmt->bindParam(1, $userName,  PDO::PARAM_STR);
         $stmt->bindParam(2, $mailaddress,   PDO::PARAM_STR);
-        $stmt->bindParam(3, $profile, PDO::PARAM_STR);
-        $stmt->bindParam(4, $coin, PDO::PARAM_INT);
-        $stmt->bindParam(5, $userId, PDO::PARAM_INT);
+        $stmt->bindParam(3, $password,   PDO::PARAM_STR);
+        $stmt->bindParam(4, $profile, PDO::PARAM_STR);
+        $stmt->bindParam(5, $coin, PDO::PARAM_INT);
+        $stmt->bindParam(6, $userId, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -68,6 +72,7 @@ class UserMapper extends DataMapper{
             $userId = $row->user_id;
             $userName  = $row->user_name;
             $mailaddress   = $row->mail_address;
+            $password   = $row->password;
             $profile = $row->profile;
             $coin = $row->coin;
             $stmt->execute();

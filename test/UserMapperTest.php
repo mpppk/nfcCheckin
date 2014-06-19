@@ -9,6 +9,7 @@ function getUserInstance($name = "testたろう"){
 	$user = new User;
 	$user->user_name = $name;
 	$user->mail_address = 'autotest@dev.com';
+	$user->password = 'pass1234';
 	$user->profile = 'auto profile';
 	$user->coin = 5;
 	return $user;
@@ -36,6 +37,7 @@ class UserMapperTest extends PHPUnit_Framework_TestCase{
 		$user = new User;
 		$user->user_name = '自動testさん';
 		$user->mail_address = 'autotest@dev.com';
+		$user->password = 'pass1234';
 		$user->profile = 'auto profile';
 		$user->coin = 5;
 

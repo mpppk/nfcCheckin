@@ -1,0 +1,154 @@
+<!doctype html>  
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<!-- hifiveスタイルシートの読み込み -->
+		<link type="text/css" rel="stylesheet" href="lib/h5/h5-1.1.10.css">
+		<link type="text/css" rel="stylesheet" href="lib//sidr/stylesheets/jquery.sidr.dark.css">
+
+		<!-- 依存ファイルの読み込み -->
+		<script src="lib/jquery/jquery-2.1.1.js"></script>
+		<script src="lib/jquery/jquery.touchwipe.min.js"></script>
+		<script src="lib/sidr/jquery.sidr.min.js"></script>
+		<script src="lib/underscore/underscore-min.js"></script>
+		<script src="lib/moment/moment-with-langs.min.js"></script>
+		<script src="lib/CLNDR/clndr.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+
+		<!-- fullCalendarの読み込み -->
+		<link type="text/css" rel="stylesheet" href="lib/fullcalendar/fullcalendar.css">
+		<link type="text/css" rel="stylesheet" href="lib/fullcalendar/fullcalendar.print.css" media="print">
+		<script src="lib/fullcalendar/fullcalendar.min.js"></script>
+		<script src="lib/fullcalendar/gcal.js"></script>
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- bootstrapの読み込み -->
+		<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+		<!-- hifiveフレームワークの読み込み -->
+		<script src="lib/h5/ejs-1.0.h5mod.js"></script>
+		<script src="lib/h5/h5-1.1.10.dev.js"></script><!-- 開発時は h5.dev.js を読み込む-->
+		<!-- <script src="lib/h5/h5.devtool.js"></script> -->
+		<script src="lib/h5/ejs_fulljslint.js"></script>
+		
+		<!-- コントローラの読み込み(順番に注意) -->
+		<script src="controller/CModalController.js"></script>
+		<script src="controller/CalendarController.js"></script>
+		<script src="controller/HelloWorldController.js"></script>
+		<script src="controller/LogsController.js"></script>
+		<script src="controller/UserController.js"></script>
+		<script src="controller/DrawerController.js"></script>
+		<script src="controller/NavController.js"></script>
+		<!-- <script src="logic/LogsLogic.js"></script> -->
+		<script src="controller/PageController.js"></script>
+
+		<!-- ここまで必要ファイルの読み込み -->
+
+		<title>hifive Hello World!</title>
+	</head>
+	<body>
+		<!-- ナビバーの設定 -->
+		<nav id="navbar" class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<ul class="nav navbar-nav">
+					<li><a id="simple-menu" href="#sidr">menu</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div id="container">
+			<div id="sidr">
+				<!-- Your content -->
+				<ul>
+					<li id='drawerLogs'><a href="#logs">Logs</a></li>
+					<li id='drawerYou'><a href="#you">You</a></li>
+
+				</ul>
+			</div><!-- #sidr -->
+			<div id= "user"><!-- ユーザ情報 -->
+				<div id="userInfo">
+					<div id="userName"></div>
+					<div id="userProfile"></div>
+					<div id="userLOCA"></div>
+					<button id="calendarbtn" class="btn btn-default" type="button">show calendar</button>
+				</div>
+				<div id="calendar">
+					<!-- modal window -->
+					<div id="auto_modal" class="modal fade">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">金額</h4>
+								</div>
+								<div class="modal-body text-center">
+									<form class="form-inline" role="form">
+										<div class="form-group">
+											<label class="sr-only" for="chargeLabel">charge</label>
+											<input type="number" class="form-control" id="chargeInput" placeholder="Enter price" required min="1">
+										</div>
+										<button type="button" class="btn btn-primary" id="chargebtn">charge</button>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+								</div>
+							</div><!-- modal content -->
+						</div><!-- modal dialog -->
+					</div><!-- auto modal -->
+				</div><!-- #calendar -->
+			</div><!-- #user -->
+
+			<div id="logs">
+				<ul id="logsList"></ul>
+			</div><!-- #logs -->
+
+			<input class="btn btn-default" type="button" id="btn" value="hello world!" />
+		</div><!-- #container -->
+
+		<table class="table table-striped">
+		  <tr>
+		    <td>りんご</td>
+		    <td>甘酸っぱい</td>
+		    <td>おおむね赤</td>
+		  </tr>
+		  <tr>
+		    <td>なつみかん</td>
+		    <td>かなり酸っぱいと思う</td>
+		    <td>たいてい黄色</td>
+		  </tr>
+		</table>
+
+		<div id="login">
+			<form action="/login" method="post">
+					<div>
+							<input type="text" name="username"/>
+					</div>
+					<div>
+							<label>Password:</label>
+							<input type="password" name="password"/>
+					</div>
+					<div>
+							<input class="btn btn-primary" type="submit" value="Log In"/>
+					</div>
+			</form>
+		</div><!-- #login -->
+	</body>
+
+	<script>
+	var g_start;//fullCalendarがクリックされた時のstart
+	var g_end;//fullCalendarがクリックされた時のend
+
+	// $('#auto_modal').on('shown.bs.modal', function () {
+	//     console.log('on modal shown');
+	//     $('#chargeInput').focus();
+	// });
+
+	</script>
+</html>
+

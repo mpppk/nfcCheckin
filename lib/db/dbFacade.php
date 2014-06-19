@@ -50,6 +50,7 @@ class DBFacade{
 		$cmapper->insert($log);
 	}
 
+	// チェックインしているすべてのユーザ名とチェックイン時間を取得
     public function findAllWithUser(){
         $stmt = self::$pdo->query('
             SELECT
@@ -72,7 +73,5 @@ class DBFacade{
 	public function getAllLog(){
 		$result = $this->findAllWithUser();
 		return $result;
-
 	}
-
 }

@@ -26,23 +26,27 @@ $(function() {
         },
 
         '#drawerLogs click': function() {
-            console.log('log pushed');
             this.trigger('moveToLogs')
         },
 
-        '#drawerYou click': function() {
-            console.log('user pushed');
-            this.trigger('moveToYou')
+        '#drawerStatus click': function() {
+            this.trigger('moveToStatus')
+        },
+
+        '#drawerCalendar click': function() {
+            this.trigger('moveToCalendar')
         },
 
         '#drawerPayment click': function() {
-            console.log('sync pushed');
             this.trigger('moveToPayment')
         },
 
         '#drawerDeposit click': function() {
-            console.log('sync pushed');
             this.trigger('moveToDeposit')
+        },
+
+        '#drawerDevice click': function() {
+            this.trigger('moveToDevice')
         }
 
     }

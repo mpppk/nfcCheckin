@@ -16,6 +16,7 @@ $(function() {
                     g_start = start;
                     g_end = end;
                     // bootstrap modal window
+                    console.log('calendar selected');
                     $('#auto_modal').modal('show');
                 }
             });
@@ -27,6 +28,7 @@ $(function() {
             $(this.rootElement).hide('slow');
         },
         show: function(){
+            console.log('calendar show');
             $(this.rootElement).show('slow');
         },
         toggle: function(){

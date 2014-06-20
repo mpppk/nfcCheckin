@@ -11,7 +11,11 @@ $(function() {
         navLogic: navLogic,
         '#loginbtn click': function() {
             this.trigger('moveToLogin');
+        },
+        changeTitle: function(title){
+            this.$find('#pageTitle').text(title);
         }
+
     }
     h5.core.expose(navController);
 });

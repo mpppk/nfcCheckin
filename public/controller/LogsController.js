@@ -27,12 +27,14 @@ $(function() {
                 var ulObj = self.$find('#logsTable');
                 ulObj.empty();
                 var len = data.length;
+                // for(var i = 0; i < 2; i++) {
                 for(var i = 0; i < len; i++) {
                     var userName = data[i].user_name;
                     if(data[i].user_name == null)   userName = 'unknown';
                     ulObj.append($("<tr>").attr({"data-index":i}));
                     // var tr = ulObj.find( $( '<tbody> <tr>' ) );
-                    var tr = ulObj.find( $( 'tbody tr' ) );
+                    var tr = ulObj.find( $( 'tbody tr:eq(' + i + ')' ) );
+                    // var tr = ulObj.find( $( 'tbody tr' ) );
                     tr.append($("<td>").text(userName));
                     tr.append($("<td>").text(data[i].checkin_time));
                     tr.append($("<td>").text('test'));

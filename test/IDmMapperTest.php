@@ -6,10 +6,11 @@ require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 
 // 指定したパラメータのidmインスタンスを返す
-function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345){
+function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345, $arg_cardName = 'testCardName'){
 	$idm = new IDm;
 	$idm->user_id = $arg_userId;
 	$idm->idm_no = $arg_idmNo;
+	$idm->card_name = $arg_cardName;
 	return $idm;
 }
 
@@ -107,6 +108,8 @@ class IDmMapperTest extends PHPUnit_Framework_TestCase{
 		$imapper->insert($idm);
 		$newIdm = $imapper->findByIDm(12345);
 		$this->assertEquals($idm->idm_no, $newIdm->idm_no);
+		echo 'card name is '. $idm->card_name;
+		echo 'card name is '. $newIdm->card_name;
 	}
 
 	// 指定したIDmを持っている場合、hasIDmが正しく動作するかのテスト

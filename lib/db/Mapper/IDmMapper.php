@@ -74,11 +74,12 @@ class IDmMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $pdo->prepare('
-            INSERT INTO IDms(user_id, idm_no)
-            VALUES (?, ?)
+            INSERT INTO IDms(user_id, idm_no, card_name)
+            VALUES (?, ?, ?)
         ');
         $stmt->bindParam(1, $userId,   PDO::PARAM_INT);
         $stmt->bindParam(2, $idmNo, PDO::PARAM_STR);
+        $stmt->bindParam(3, $cardName, PDO::PARAM_STR);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -89,6 +90,7 @@ class IDmMapper extends DataMapper{
             }
             $userId   = $row->user_id;
             $idmNo = $row->idm_no;
+            $cardName = $row->card_name;
             $stmt->execute();
 
             //autoincrementな主キーをオブジェクト側へ反映
@@ -103,11 +105,13 @@ class IDmMapper extends DataMapper{
             UPDATE IDms
                SET user_id = ?
                  , idm_no = ?
+                 , card_name = ?
              WHERE idm_id = ?
         ');
         $stmt->bindParam(1, $userId,  PDO::PARAM_INT);
         $stmt->bindParam(2, $idmNo,   PDO::PARAM_STR);
-        $stmt->bindParam(3, $idmId, PDO::PARAM_INT);
+        $stmt->bindParam(3, $cardName, PDO::PARAM_STR);
+        $stmt->bindParam(4, $idmId, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -119,6 +123,7 @@ class IDmMapper extends DataMapper{
             $userId = $row->user_id;
             $idmNo  = $row->idm_no;
             $idmId   = $row->idm_id;
+            $cardName   = $row->card_name;
             $stmt->execute();
         }
     }

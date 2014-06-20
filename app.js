@@ -40,6 +40,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', routes.index);
 app.get('/logs', routes.getLogs);
 app.get('/user/:id([0-9]+)', routes.getUser);
+app.get('/device/:id([0-9]+)', routes.getDevice);
 app.post('/login',
 		passport.authenticate('local', { successRedirect: '/',
 																		 failureRedirect: '/',

@@ -37,6 +37,7 @@
 		<script src="lib/h5/ejs_fulljslint.js"></script>
 		
 		<!-- コントローラの読み込み(順番に注意) -->
+		<script src="controller/DeviceController.js"></script>
 		<script src="controller/PaymentController.js"></script>
 		<script src="controller/DepositController.js"></script>
 		<script src="controller/CModalController.js"></script>
@@ -59,6 +60,9 @@
 		<!-- <nav id="navbar" class="navbar navbar-inverse" role="navigation"> -->
 		<nav id="navbar" class="navbar navbar-default" role="navigation">
 			<div class="container">
+				<div class="navbar-header">
+					<span id="pageTitle" class="navbar-brand">Brand</span>
+				</div><!-- navbar-header -->
 				<ul class="nav navbar-nav">
 					<li><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-th"></span> menu</a></li>
 				</ul>
@@ -80,9 +84,11 @@
 				<!-- Your content -->
 				<ul>
 					<li id='drawerLogs'><a href="#logs">Logs</a></li>
-					<li id='drawerYou'><a href="#you">You</a></li>
-					<li id='drawerPayment'><a href="#you">Payment</a></li>
-					<li id='drawerDeposit'><a href="#you">Deposit</a></li>
+					<li id='drawerStatus'><a href="#status">Status</a></li>
+					<li id='drawerCalendar'><a href="#calendar">Calendar</a></li>
+					<li id='drawerPayment'><a href="#payment">Payment</a></li>
+					<li id='drawerDeposit'><a href="#deposit">Deposit</a></li>
+					<li id='drawerDevice'><a href="#device">Device</a></li>
 
 				</ul>
 			</div><!-- #sidr -->
@@ -91,37 +97,40 @@
 					<div id="userName"></div>
 					<div id="userProfile"></div>
 					<div id="userLOCA"></div>
-					<button id="syncICbtn" class="btn btn-default" type="button">add new nfc device</button>
+<!-- 					<button id="syncICbtn" class="btn btn-default" type="button">add new nfc device</button>
 					<button id="calendarbtn" class="btn btn-default" type="button">show calendar</button>
-				</div>
-				<div id="calendar">
-					<!-- modal window -->
-					<div id="auto_modal" class="modal fade">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title">金額</h4>
-								</div>
-								<div class="modal-body text-center">
-									<form class="form-inline" role="form">
-										<div class="form-group">
-											<label class="sr-only" for="chargeLabel">charge</label>
-											<input type="number" class="form-control" id="chargeInput" placeholder="Enter price" required min="1">
-										</div>
-										<button type="button" class="btn btn-primary" id="chargebtn">charge</button>
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
-								</div>
-							</div><!-- modal content -->
-						</div><!-- modal dialog -->
-					</div><!-- auto modal -->
-				</div><!-- #calendar -->
+ -->				</div>
 			</div><!-- #user -->
-			<div id="payment">paymentやで</div>
-			<div id="deposit">depositやで</div>
+
+			<div id="calendar">
+				<!-- modal window -->
+				<div id="auto_modal" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">金額</h4>
+							</div>
+							<div class="modal-body text-center">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label class="sr-only" for="chargeLabel">charge</label>
+										<input type="number" class="form-control" id="chargeInput" placeholder="Enter price" required min="1">
+									</div>
+									<button type="button" class="btn btn-primary" id="chargebtn">charge</button>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+							</div>
+						</div><!-- modal content -->
+					</div><!-- modal dialog -->
+				</div><!-- auto modal -->
+			</div><!-- #calendar -->
+
+			<div id="payment"></div>
+			<div id="deposit"></div>
+			<div id="device"></div>
 			<!-- <input class="btn btn-default" type="button" id="btn" value="hello world!" /> -->
 		</div><!-- #container -->
 
@@ -144,6 +153,7 @@
 	<script>
 	var g_start;//fullCalendarがクリックされた時のstart
 	var g_end;//fullCalendarがクリックされた時のend
+	var g_DBName = 'sample';
 	</script>
 </html>
 

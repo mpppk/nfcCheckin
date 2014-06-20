@@ -89,7 +89,6 @@
 					<li id='drawerPayment'><a href="#payment">Payment</a></li>
 					<li id='drawerDeposit'><a href="#deposit">Deposit</a></li>
 					<li id='drawerDevice'><a href="#device">Device</a></li>
-
 				</ul>
 			</div><!-- #sidr -->
 			<div id= "user"><!-- ユーザ情報 -->
@@ -132,6 +131,14 @@
 			<div id="deposit"></div>
 			<div id="device">
 				<table class="table table-striped" id="deviceTable"></table>
+				<input id="addDeviceBtn" class="btn btn-primary" type="submit" value="add new card"/>
+				<div class="progress progress-striped active">
+					<div class="progress-bar"  role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+						<span class="sr-only">10sec</span>
+						10sec
+					</div><!-- progress-bar -->
+				</div><!-- progress-striped -->
+				<div id="progressMsg"></div>
 			</div>
 			<!-- <input class="btn btn-default" type="button" id="btn" value="hello world!" /> -->
 		</div><!-- #container -->

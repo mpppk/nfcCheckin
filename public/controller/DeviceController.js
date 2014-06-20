@@ -17,21 +17,26 @@ $(function() {
 
         deviceLogic: deviceLogic,
         __ready: function(){
+            $(this.rootElement).prepend($("<h1>").text('your devices'));
             // this.load();
         },
-        load: function(deviceID){
+        load: function(userID){
+            var self = this;
             console.log('in deviceController load');
-            $(this.rootElement).empty();
-            $(this.rootElement).append($("<h1>").text('your devices'));
-            this.deviceLogic.getDevice(deviceID).done(function(data){
+            this.deviceLogic.getDevice(userID).done(function(data){
                 var len = data.length;
-                console.log('len: ' + len);
+                console.log(data.length);
+                var table =  self.$find('#deviceTable');
+                table.empty();
+                // var table =  $(this.rootElement).find($('deviceTable'));
                 for(var i = 0; i < len; i++) {
                     var cardName = data[i].card_name;
                     if(data[i].card_name == null)   cardName = 'unknown card';
                     console.log('card name is ' + cardName);
-                    $(this.rootElement).append($("<tr>").attr({"data-index":i}));
-                    var tr = $(this.rootElement).find( $( '<tbody> <tr>' ) );
+                    table.append($("<tr>"));
+                    var tr = table.find($('tr'));
+                    tr = tr.eq(i);
+                    console.log('tr num: ' + tr.length);
                     tr.append($("<td>").text(cardName));
                     tr.append($("<td>").text(data[i].idm_no));
                     tr.append($("<td>").text('test'));

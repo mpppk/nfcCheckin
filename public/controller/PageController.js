@@ -84,7 +84,7 @@ $(function() {
             this._navController.changeTitle('Calendar');
         },
         '{rootElement} moveToDevice': function(){
-            var tempUserID = 1;// 実際はログインしているユーザのIDを利用する
+            var tempUserID = 201;// 実際はログインしているユーザのIDを利用する
             this._deviceController.load(tempUserID);
             this.hideWithout(this._deviceController);
             $.sidr('close', 'sidr');

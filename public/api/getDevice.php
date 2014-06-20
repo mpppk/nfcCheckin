@@ -10,12 +10,7 @@ $idmArray = $imapper->findAllIDmByUserId( (int)$argv[1] );
 $results = array();
 // var_dump($idmArray);
 foreach ($idmArray as $idm) {
-	$result = array();
-	$result += array('idmId' => $idm->idm_id);
-	$result += array('userId' => $idm->user_id);
-	$result += array('idmNo' => $idm->idm_no);
-	$result += array('cardName' => $idm->card_name);
-	$results += $result;
+	$results[] = (array)$idm;
 }
 
 header("Content-Type: application/json; charset=utf-8");

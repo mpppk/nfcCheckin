@@ -48,6 +48,7 @@ class DBFacade{
 		$log = new CheckinLog;
 		$log->idm_id = $idm->idm_id;
 		$cmapper->insert($log);
+		return $log;
 	}
 
 	// チェックインしているすべてのユーザ名とチェックイン時間を取得

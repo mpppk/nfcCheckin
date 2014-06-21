@@ -51,3 +51,8 @@ exports.getDevice = function(req, res){
 	php.on('exit', function(code){
 	});
 }
+
+exports.addLog = function(req, res){
+	io.sockets.emit('addLog', req.body.json);
+	console.log('log posted');
+}

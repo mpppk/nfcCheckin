@@ -1,8 +1,10 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var http = require('http');
 routes = require('./routes/main.js');
 var app = express();
-// var flash = require("connect-flash");
+var flash = require("connect-flash");
 var passport = require('passport')
 , LocalStrategy = require('passport-local').Strategy;
 
@@ -35,21 +37,27 @@ app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
+app.use(methodOverride());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+// app.use(express.bodyParser());
 
 // ルーティングの設定
 app.get('/', routes.index);
 app.get('/logs', routes.getLogs);
+app.post('/addLog', routes.addLog);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
 app.post('/login',
-		passport.authenticate('local', { successRedirect: '/',
-																		 failureRedirect: '/',
-																		 failureFlash: false })
+passport.authenticate('local', { successRedirect: '/',
+	 failureRedirect: '/',
+	 failureFlash: false })
 );
 
 var server = http.createServer(app);
 server.listen(3000);
-var io = require('socket.io').listen(server);
+io = require('socket.io').listen(server);
 
 // var io = require('socket.io').listen(app);
 
@@ -67,6 +75,7 @@ io.sockets.on('connection', function (socket) {
 		});
 });
 
-// io.sockets.on('emit_from_client', function (socket) {
-//     socket.emit('emit_from_server', msg);
-// });
+// var addLog = function(req, res){
+// 	console.log('log posted');
+// }
+

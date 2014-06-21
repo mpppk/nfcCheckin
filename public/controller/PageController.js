@@ -47,9 +47,21 @@ $(function() {
             }
 
         },
-
+        __ready: function(){
+            // var self = this;
+            // pageController.loadLogSocket.on('addLog', function(){
+            //     self.addLog(data);
+            // });
+        },
         load: function(){
             this._logsController.load();
+        },
+        addLog: function(data){
+            console.log('posted json: ' + data);
+            for(var prop in this){
+                console.log(prop);
+            }
+            this._logsController.addLog(data);
         },
         '{rootElement} moveToLogs': function(){
             this.hideWithout(this._logsController);
@@ -109,7 +121,11 @@ $(function() {
 
     pageController.loadLogSocket.on('emit_from_server', function(){
         pageController.load();
-        // pageController._logsController.load();
+        pageController._logsController.load();
+    });
+
+    pageController.loadLogSocket.on('addLog', function(data){
+        pageController._logsController.addLog(data);
     });
 
     h5.core.controller('body', pageController );

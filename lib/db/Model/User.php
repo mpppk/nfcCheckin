@@ -38,9 +38,7 @@ class User extends DataModel{
             echo "profileが正しい値ではありません";
             return false;
         }
-
         return true;
     }
 }
-
 ?>

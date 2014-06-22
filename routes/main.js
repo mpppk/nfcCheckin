@@ -52,9 +52,9 @@ exports.getDevice = function(req, res){
 	});
 }
 
-exports.addLog = function(req, res){
-	io.sockets.emit('addLog', req.body.json);
-	res.send('add '. req.body.json);
+exports.touch = function(req, res){
+	io.sockets.emit('touched', req.body.json);
+	res.send('touched');
 }
 
 exports.getCheckinMember = function(req, res){

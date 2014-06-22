@@ -52,7 +52,7 @@ while (true) {
 	// $postData['checkinTime'] = $log->checkin_time;
 
 	$result = file_get_contents(
-		$domainName. "addLog",
+		$domainName. "touch",
 		false,
 		stream_context_create(
 			array(

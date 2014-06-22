@@ -122,7 +122,7 @@ $(function() {
         pageController._logsController.load();
     });
 
-    pageController.loadLogSocket.on('addLog', function(data){
+    pageController.loadLogSocket.on('touched', function(data){
         pageController._logsController.addLog(data);
     });
 

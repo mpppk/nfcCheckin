@@ -46,7 +46,7 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 // ルーティングの設定
 app.get('/', routes.index);
 app.get('/logs', routes.getLogs);
-app.post('/addLog', routes.addLog);
+app.post('/touch', routes.touch);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
 // app.get('/checkinMember', routes.getLogs);

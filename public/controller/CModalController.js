@@ -9,6 +9,7 @@ $(function() {
         cmodalLogic: cmodalLogic,
 
         '#chargebtn click': function() {
+            var self = this;
             var chargePrice = $('#chargeInput').val();
             console.log("price: " + chargePrice);
             var eventData;
@@ -23,6 +24,15 @@ $(function() {
             $('#fullcalendar').fullCalendar('unselect');
             $('#chargeInput').val("");
             $('#auto_modal').modal('hide');
+
+            // message表示
+            this.$find('#calendarInfo').prepend($('<div>').hide().attr({class:'alert alert-success text-centor'})
+                .text('you succeeded adding bill.'));
+            self.$find('.alert').show('fast');
+            setTimeout(function(){
+                self.$find('.alert').hide('slow');
+                // self.$find('.alert').remove();
+            }, 5000);
         },
 
         hide: function(){
@@ -36,8 +46,6 @@ $(function() {
     $('#auto_modal').on('shown.bs.modal', function () {
         $('#chargeInput').focus();
     });
-
-
     h5.core.expose(cmodalController);
 });
 

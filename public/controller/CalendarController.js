@@ -26,6 +26,7 @@ $(function() {
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end) {
+                    self.$find("#calendarInfo").show('fast');
                     self.calendarLogic.getCheckinMember(start).done(function(data){
                             self.$find("#calendarInfo").find($('h1')).text(start.format('YYYY-MM-DD'));
                             var table = self.$find("#checkinMemberTable");
@@ -44,37 +45,23 @@ $(function() {
                     g_start = start;
                     g_end = end;
                     // bootstrap modal window
-                    $('#auto_modal').modal('show');
+                    // $('#auto_modal').modal('show');
                 }
             });
             this.showInfo();
         },
-
-
         showInfo: function(){
             console.log('in showInfo');
             var self = this;
-            // this.logslogic.getlogs().done(function(data){
-            //     var infodiv = self.$find('#calendarinfo');
-            //     infodiv.empty();
-            //     var len = data.length;
-            //     // for(var i = 0; i < 2; i++) {
-            //     for(var i = 0; i < len; i++) {
-            //         var username = data[i].user_name;
-            //         if(data[i].user_name == null)   username = 'unknown';
-            //         infodiv.append($("<tr>"));
-            //         // infodiv.append($("<tr>").attr({"data-index":i}));
-            //         // var tr = infodiv.find( $( '<tbody> <tr>' ) );
-            //         var tr = infodiv.find( $( 'tbody tr:eq(' + i + ')' ) );
-            //         // var tr = infodiv.find( $( 'tbody tr' ) );
-            //         tr.append($("<td>").text(username));
-            //         tr.append($("<td>").text(data[i].checkin_time));
-            //         tr.append($("<td>").text('test'));
-            //     }
-            // }
+        },
+        '#addChargeBtn click': function() {
+            console.log('chargeBtn pushed');
+            this.$find('#auto_modal').modal('show');
+            // $('#auto_modal').modal('show');
         },
         hide: function(){
             this.$find("#calendarInfo").find($('h1')).text('');
+            this.$find("#calendarInfo").hide('fast');
             $(this.rootElement).hide('slow');
         },
         show: function(){

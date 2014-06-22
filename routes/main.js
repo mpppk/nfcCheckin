@@ -54,5 +54,28 @@ exports.getDevice = function(req, res){
 
 exports.addLog = function(req, res){
 	io.sockets.emit('addLog', req.body.json);
-	console.log('log posted');
+	res.send('add '. req.body.json);
 }
+
+exports.getCheckinMember = function(req, res){
+	console.log('in getCheckinMember');
+	var month = ('0' + req.params.month).slice(-2);
+	var day = ('0' + req.params.day).slice(-2);
+	// ( '00' + num ).slice( -3 );
+	var date = req.params.year + '-' + month + '-' + day;
+	console.log(date);
+	var spawn = require('child_process').spawn;
+	var php = spawn('php', ['public/api/getCheckinMember.php ', date, dbName]);
+	php.stdout.on('data', function(data){
+		res.send(data);
+	});
+
+	php.stderr.on('data', function(data){
+		res.send('stderr: ' + data);
+	});
+
+	php.on('exit', function(code){
+	});
+}
+
+

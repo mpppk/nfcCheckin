@@ -26,13 +26,8 @@ $(function() {
             var self = this;
             this.logsLogic.getLogs().done(function(data){
                 var ulObj = self.$find('#logsTable');
-                // for(var prop in self){
-                //     console.log(prop);
-                // }
-
                 ulObj.empty();
                 var len = data.length;
-                // for(var i = 0; i < 2; i++) {
                 for(var i = 0; i < len; i++) {
                     var userName = data[i].user_name;
                     if(data[i].user_name == null)   userName = 'unknown';

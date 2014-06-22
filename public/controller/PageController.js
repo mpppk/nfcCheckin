@@ -48,6 +48,7 @@ $(function() {
 
         },
         __ready: function(){
+            this.hideWithout(this._logsController);
             // var self = this;
             // pageController.loadLogSocket.on('addLog', function(){
             //     self.addLog(data);
@@ -58,9 +59,6 @@ $(function() {
         },
         addLog: function(data){
             console.log('posted json: ' + data);
-            for(var prop in this){
-                console.log(prop);
-            }
             this._logsController.addLog(data);
         },
         '{rootElement} moveToLogs': function(){

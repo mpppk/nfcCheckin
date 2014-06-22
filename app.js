@@ -49,6 +49,8 @@ app.get('/logs', routes.getLogs);
 app.post('/addLog', routes.addLog);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
+// app.get('/checkinMember', routes.getLogs);
+app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
 app.post('/login',
 passport.authenticate('local', { successRedirect: '/',
 	 failureRedirect: '/',

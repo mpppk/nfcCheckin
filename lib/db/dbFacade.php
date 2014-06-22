@@ -7,11 +7,11 @@ require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 require_once $rootPass. 'lib/db/Mapper/IDmMapper.php';
 
-function getLogInstance($idmId = 1){
-	$log = new CheckinLog;
-	$log->idm_id = $idmId;
-	return $log;
-}
+// function getLogInstance($idmId = 1){
+// 	$log = new CheckinLog;
+// 	$log->idm_id = $idmId;
+// 	return $log;
+// }
 
 class DBFacade{
 	static $pdo;
@@ -75,4 +75,29 @@ class DBFacade{
 		$result = $this->findAllWithUser();
 		return $result;
 	}
+
+	public function findUserByDate($date){
+		$stmt = self::$pdo->query('
+		    SELECT
+		      *
+		    FROM
+		      CheckinLogs
+		    LEFT JOIN
+		      IDms
+		    ON 
+		      CheckinLogs.idm_id = IDms.idm_id
+		    LEFT JOIN
+		      Users
+		    ON
+		      IDms.user_id = Users.user_id
+		    WHERE
+		      date(checkin_time) = date(?);
+		');
+
+		$stmt->bindParam(1, $date, PDO::PARAM_STR);
+		$stmt->execute();
+		// $this->_decorate($stmt);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 }

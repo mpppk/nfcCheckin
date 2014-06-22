@@ -15,7 +15,7 @@ $longopts = array("mock", "nfcpypath:", "test");
 $options = getopt("", $longopts);
 
 // 使用するDBの決定
-$dbName = "";
+$dbName = "sample";
 if(array_key_exists('test', $options))	$dbName = 'test';
 $pdo = getPDO($dbName);
 

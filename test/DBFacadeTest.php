@@ -16,6 +16,12 @@ function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345){
 	return $idm;
 }
 
+function getLogInstance($idmId = 1){
+	$log = new CheckinLog;
+	$log->idm_id = $idmId;
+	return $log;
+}
+
 class DBFacadeTest extends PHPUnit_Framework_TestCase{
 	static $pdo;
 
@@ -72,6 +78,20 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		$dbfacade->checkin('unknownIDm');
 
 		$dbfacade = DBFacade::I(self::$pdo);
-		var_dump( $dbfacade->getAllLog() );
+		// var_dump( $dbfacade->getAllLog() );
+	}
+
+	public function testUserByDate(){
+		$cmapper = new CheckinLogMapper(self::$pdo);
+		$dbfacade = DBFacade::I(self::$pdo);
+		$log = getLogInstance();
+		$cmapper->insert($log);
+		$newLogs = $dbfacade->findUserByDate(date('Y-m-d'));
+		// echo 'log: ';
+		// var_dump( $log);
+		// echo 'new log: ';
+		// var_dump($newLogs);
+		// echo 'date: '. $newLogs[0]['checkin_time'];
+		$this->assertEquals($log->checkin_time, $newLogs[0]['checkin_time']);
 	}
 }

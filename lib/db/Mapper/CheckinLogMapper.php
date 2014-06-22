@@ -64,6 +64,20 @@ class CheckinLogMapper extends DataMapper{
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
+    public function findAllByDate($date){
+        $stmt = $this->_pdo->prepare("
+            SELECT *
+              FROM CheckinLogs
+              WHERE date(checkin_time) = date(?)
+        ");
+
+        $stmt->bindParam(1, $date, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $this->_decorate($stmt);
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+    }
+
     public function findAll(){
         $stmt = $this->_pdo->query('
             SELECT *

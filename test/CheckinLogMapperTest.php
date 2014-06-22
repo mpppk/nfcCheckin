@@ -29,26 +29,26 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
 		$pdo = self::$pdo = getPDO('test');
 	}
 
-    //テストの度にDBをクリーンな状態に戻す。
-    function setUp(){
+	//テストの度にDBをクリーンな状態に戻す。
+	function setUp(){
         $pdo = self::$pdo;
         // DB clean up
         $pdo->beginTransaction();
         $pdo->query('DELETE FROM CheckinLogs');
         $pdo->query('DELETE FROM IDms');
         $pdo->commit();
-    }
+	}
 
 	public function testInsertLog(){
 		$cmapper = new CheckinLogMapper(self::$pdo);
 		$log = getLogInstance();
 		$cmapper->insert($log);
 
-		// phpは、オブジェクトを参照渡しするので、insert後のuserオブジェクトをチェックすればよい
+		// phpは、オブジェクトを参照渡しするので、insert後のlogオブジェクトをチェックすればよい
 		$this->assertArrayHasKey('checkin_id', $log->toArray());
 	}
 
-    public function testDeleteLog() {
+	public function testDeleteLog() {
         $cmapper = new CheckinLogMapper(self::$pdo);
 
 		$log = getLogInstance();
@@ -57,7 +57,7 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
         $allLogs = $cmapper->findAll()->fetchAll();
 
         $this->assertEmpty($allLogs);
-    }
+	}
 
 	public function testFindLog(){
 		$cmapper = new CheckinLogMapper(self::$pdo);
@@ -68,11 +68,21 @@ class CheckinLogMapperTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
 	}
 
+	public function testFindLogByDate(){
+		$cmapper = new CheckinLogMapper(self::$pdo);
+		$log = getLogInstance();
+		$cmapper->insert($log);
+		$newLogs = $cmapper->findAllByDate(date('Y-m-d'));
+		var_dump($log);
+		var_dump($newLogs);
+		$this->assertEquals($log->checkin_time, $newLogs[0]->checkin_time);
+	}
+
 	public function testFindLogByIDmId(){
 		$cmapper = new CheckinLogMapper(self::$pdo);
 
 		$log = getLogInstance();
-        $cmapper->insert($log);
+		$cmapper->insert($log);
 		$newLog = $cmapper->findByIDmId($log->idm_id);
 		$this->assertEquals($log->checkin_time, $newLog->checkin_time);
 	}

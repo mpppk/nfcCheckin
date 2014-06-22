@@ -18,9 +18,9 @@ $(function() {
                     start: g_start,
                     end: g_end
                 };
-                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                $('#fullcalendar').fullCalendar('renderEvent', eventData, true); // stick? = true
             }
-            $('#calendar').fullCalendar('unselect');
+            $('#fullcalendar').fullCalendar('unselect');
             $('#chargeInput').val("");
             $('#auto_modal').modal('hide');
         },

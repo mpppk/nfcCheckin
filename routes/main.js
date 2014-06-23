@@ -1,5 +1,7 @@
 var dbName = 'sample';
 
+
+
 exports.index = function(req, res){
 	res.render('index', { title: 'Express' });
 };
@@ -54,6 +56,11 @@ exports.getDevice = function(req, res){
 
 exports.touch = function(req, res){
 	io.sockets.emit('touched', req.body.json);
+	if(isSyncMode){
+		// 本当は全員に投げる必要はないけどとりあえず
+		io.sockets.emit('deviceFound', req.body.json);
+	}
+
 	res.send('touched');
 }
 
@@ -78,4 +85,18 @@ exports.getCheckinMember = function(req, res){
 	});
 }
 
+// ユーザのsync申請を受け付ける
+// exports.startSync = function(req, res){
+// 	// 他のユーザがsync状態であれば失敗
+// 	if(isSyncMode == true){
+// 		res.send(false);
+// 	}
+// 	// そうでなければsync開始
+// 	isSyncMode = true;
+// 	// 一定時間後にstop
+// 	setTimeout(function(){
+// 		isSyncMode = false;
+// 	}, 10000);
+// 	res.send(true);
+// }
 

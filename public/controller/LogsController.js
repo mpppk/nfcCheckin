@@ -57,7 +57,6 @@ $(function() {
             tr.append($("<td>").text(json.checkinTime));
             tr.append($("<td>").text('test'));
             tr.show('slow');
-            console.log(json);
         },
         hide: function(){
             $(this.rootElement).hide('slow');

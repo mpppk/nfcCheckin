@@ -12,8 +12,8 @@ $(function() {
         _calendarController: calendarController,
         _deviceController: deviceController,
 
-        loadLogSocket: io.connect('http://192.168.33.10:3000'),
-        helloSocket: io.connect('http://192.168.33.10:3000'),
+        mySocket: io.connect('http://192.168.33.10:3000'),
+        // helloSocket: io.connect('http://192.168.33.10:3000'),
         __meta:{
             _helloWorldController:{
                 rootElement: '#container'
@@ -48,9 +48,24 @@ $(function() {
 
         },
         __ready: function(){
+            var self = this;
             this.hideWithout(this._logsController);
+            console.log('ready');
+
+            this.mySocket.on('syncRequestResponse', function(isSuccess){
+                if(isSuccess){
+                    self._deviceController.startSync();
+                }else{
+                    self._deviceController.syncFailued();
+                }
+            });
+
+            this.mySocket.on('deviceFound', function(json){
+                self._deviceController.detectDevice(json);
+            });
+
             // var self = this;
-            // pageController.loadLogSocket.on('addLog', function(){
+            // pageController.mySocket.on('addLog', function(){
             //     self.addLog(data);
             // });
         },
@@ -113,19 +128,18 @@ $(function() {
         }
     };
 
-    pageController.helloSocket.on('emit_from_server', function(data){
-        console.log(data);
-    });
+    // pageController.helloSocket.on('emit_from_server', function(data){
+    //     console.log(data);
+    // });
 
-    pageController.loadLogSocket.on('emit_from_server', function(){
-        pageController.load();
-        pageController._logsController.load();
-    });
+    // pageController.mySocket.on('emit_from_server', function(){
+    //     pageController.load();
+    //     pageController._logsController.load();
+    // });
+    h5.core.controller('body', pageController );
 
-    pageController.loadLogSocket.on('touched', function(data){
+    pageController.mySocket.on('touched', function(data){
         pageController._logsController.addLog(data);
     });
-
-    h5.core.controller('body', pageController );
 });
 

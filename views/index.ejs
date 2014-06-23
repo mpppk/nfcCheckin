@@ -37,6 +37,7 @@
 		<script src="lib/h5/ejs_fulljslint.js"></script>
 		
 		<!-- コントローラの読み込み(順番に注意) -->
+		<script src="controller/DModalController.js"></script>
 		<script src="controller/DeviceController.js"></script>
 		<script src="controller/PaymentController.js"></script>
 		<script src="controller/DepositController.js"></script>
@@ -133,6 +134,8 @@
 
 			<div id="payment"></div>
 			<div id="deposit"></div>
+			
+			<!-- device -->
 			<div id="device">
 				<table class="table table-striped" id="deviceTable"></table>
 				<input id="addDeviceBtn" class="btn btn-primary" type="submit" value="add new card"/>
@@ -143,6 +146,32 @@
 					</div><!-- progress-bar -->
 				</div><!-- progress-striped -->
 				<div id="progressMsg"></div>
+
+				<!-- modal -->
+				<div id="deviceModal" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">new device's name</h4>
+							</div>
+							<div class="modal-body text-center">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label class="sr-only" for="setDeviceName">device name</label>
+										<input type="text" class="form-control" id="deviceName" placeholder="Enter device name">
+									</div>
+									<button type="button" class="btn btn-primary" id="deviceNameSubmitBtn">submit</button>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+							</div>
+						</div><!-- modal content -->
+					</div><!-- modal dialog -->
+				</div><!-- auto modal -->
+
+
 			</div>
 			<!-- <input class="btn btn-default" type="button" id="btn" value="hello world!" /> -->
 		</div><!-- #container -->
@@ -150,14 +179,14 @@
 		<div id="login">
 			<form action="/login" method="post">
 					<div>
-							<input type="text" name="username"/>
+						<input type="text" name="username"/>
 					</div>
 					<div>
-							<label>Password:</label>
-							<input type="password" name="password"/>
+						<label>Password:</label>
+						<input type="password" name="password"/>
 					</div>
 					<div>
-							<input class="btn btn-primary" type="submit" value="Log In"/>
+						<input class="btn btn-primary" type="submit" value="Log In"/>
 					</div>
 			</form>
 		</div><!-- #login -->

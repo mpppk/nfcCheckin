@@ -3,7 +3,7 @@ $(function() {
         __name: 'calendarLogic',
         getCheckinMember: function(startMoment){
             var dfd = this.deferred();
-            var uri = "/checkinMember/" + startMoment.format('YYYY/MM/DD');
+            var uri = '/checkinMember/' + startMoment.format('YYYY/MM/DD');
             console.log('uri ' + uri);
             $.getJSON(uri).done(function(data){
                 dfd.resolve(data);
@@ -22,30 +22,28 @@ $(function() {
         __ready: function(){
             var self = this;
             // fullcalendar
-            $(this.rootElement).find("#fullcalendar").fullCalendar({
+            $(this.rootElement).find('#fullcalendar').fullCalendar({
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end) {
-                    self.$find("#calendarInfo").show('fast');
+                    self.$find('#calendarInfo').show('fast');
                     self.calendarLogic.getCheckinMember(start).done(function(data){
-                            self.$find("#calendarInfo").find($('h1')).text(start.format('YYYY-MM-DD'));
-                            var table = self.$find("#checkinMemberTable");
+                            self.$find('#calendarInfo').find($('h1')).text(start.format('YYYY-MM-DD'));
+                            var table = self.$find('#checkinMemberTable');
                             table.empty();
                             var len = data.length;
                             for(var i = 0; i < len; i++) {
                                 var userName = data[i].user_name;
                                 if(data[i].user_name == null)   userName = 'unknown';
-                                table.append($("<tr>"));
+                                table.append($('<tr>'));
                                 var tr = table.find($('tr'));
                                 tr = tr.eq(i);
-                                tr.append($("<td>").text(userName));
-                                tr.append($("<td>").text('test'));
+                                tr.append($('<td>').text(userName));
+                                tr.append($('<td>').text('test'));
                             }
                     });
                     g_start = start;
                     g_end = end;
-                    // bootstrap modal window
-                    // $('#auto_modal').modal('show');
                 }
             });
             this.showInfo();
@@ -60,8 +58,8 @@ $(function() {
             // $('#auto_modal').modal('show');
         },
         hide: function(){
-            this.$find("#calendarInfo").find($('h1')).text('');
-            this.$find("#calendarInfo").hide('fast');
+            this.$find('#calendarInfo').find($('h1')).text('');
+            this.$find('#calendarInfo').hide('fast');
             $(this.rootElement).hide('slow');
         },
         show: function(){

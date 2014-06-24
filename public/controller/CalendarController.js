@@ -57,6 +57,17 @@ $(function() {
             this.$find('#auto_modal').modal('show');
             // $('#auto_modal').modal('show');
         },
+        '{rootElement} addBill': function(context){
+            console.log('billName' + context.evArg.billName);
+            var table = this.$find('#checkinMemberTable');
+            table.prepend($('<tr>'));
+            var tr = table.find($('tr'));
+            tr = tr.eq(0);
+            tr.append($('<td>').text(context.evArg.billName));
+            tr.append($('<td>').text('test'));
+
+        },
+
         hide: function(){
             this.$find('#calendarInfo').find($('h1')).text('');
             this.$find('#calendarInfo').hide('fast');

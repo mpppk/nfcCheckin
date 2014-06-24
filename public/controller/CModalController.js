@@ -10,7 +10,8 @@ $(function() {
 
         '#chargebtn click': function() {
             var self = this;
-            var chargePrice = $('#chargeInput').val();
+            var tempBillName = this.$find('#chargeNameInput').val();
+            var chargePrice = this.$find('#chargeInput').val();
             console.log("price: " + chargePrice);
             var eventData;
             if (chargePrice) {
@@ -21,11 +22,21 @@ $(function() {
                 };
                 $('#fullcalendar').fullCalendar('renderEvent', eventData, true); // stick? = true
             }
-            $('#fullcalendar').fullCalendar('unselect');
-            $('#chargeInput').val("");
-            $('#auto_modal').modal('hide');
+
+            // 親Controllerにテーブルを追加するためのイベント通知
+            this.trigger('addBill', {
+                billName: tempBillName
+            });
+
+            this.parentController.$find('#fullcalendar').fullCalendar('unselect');
+            // this.$find('#fullcalendar').fullCalendar('unselect');
+            this.$find('#chargeNameInput').val("");
+            this.$find('#chargeInput').val("");
+            this.$find('#auto_modal').modal('hide');
+
 
             // message表示
+            self.$find('.alert').remove();
             this.$find('#calendarInfo').prepend($('<div>').hide().attr({class:'alert alert-success text-centor'})
                 .text('you succeeded adding bill.'));
             self.$find('.alert').show('fast');
@@ -44,7 +55,7 @@ $(function() {
     }
 
     $('#auto_modal').on('shown.bs.modal', function () {
-        $('#chargeInput').focus();
+        $('#chargeNameInput').focus();
     });
     h5.core.expose(cmodalController);
 });

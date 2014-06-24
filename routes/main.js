@@ -11,7 +11,8 @@ exports.getLogs = function(req, res){
 	var php = spawn('php', ['public/api/getLog.php', dbName]);
 	// var php = spawn('php', ['public/api/getLog.php', dbName]);
 	php.stdout.on('data', function(data){
-		res.send(data);
+		res.end(data);
+		// res.send(data);
 	});
 
 	php.stderr.on('data', function(data){

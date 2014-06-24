@@ -19,16 +19,16 @@ class DBFacade{
 	// シングルトンにする
 	private static $instance = null;
  
-    private function __construct(){
-    }
+	private function __construct(){
+	}
  
-    public static function I($arg_pdo){
-        if (is_null(self::$instance)){
-            self::$instance = new self;
-        }
-	 	self::$pdo = $arg_pdo;
-        return self::$instance;
-    }
+	public static function I($arg_pdo){
+		if (is_null(self::$instance)){
+			self::$instance = new self;
+		}
+		self::$pdo = $arg_pdo;
+		return self::$instance;
+	}
 
 	public function checkin($idmNo){
 		$cmapper = new CheckinLogMapper(self::$pdo);
@@ -52,24 +52,25 @@ class DBFacade{
 	}
 
 	// チェックインしているすべてのユーザ名とチェックイン時間を取得
-    public function findAllWithUser(){
-        $stmt = self::$pdo->query('
-            SELECT
-              user_name,
-              checkin_time
-            FROM
-              CheckinLogs
-            LEFT JOIN
-              IDms
-            ON 
-              CheckinLogs.idm_id = IDms.idm_id
-            LEFT JOIN
-              Users
-            ON
-              IDms.user_id = Users.user_id;
-        ');
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+	public function findAllWithUser(){
+		$stmt = self::$pdo->query('
+			SELECT
+			  user_name,
+			  checkin_time
+			FROM
+			  CheckinLogs
+			LEFT JOIN
+			  IDms
+			ON 
+			  CheckinLogs.idm_id = IDms.idm_id
+			LEFT JOIN
+			  Users
+			ON
+			  IDms.user_id = Users.user_id
+			ORDER BY checkin_time DESC;
+		');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 
 	public function getAllLog(){
 		$result = $this->findAllWithUser();
@@ -78,23 +79,49 @@ class DBFacade{
 
 	public function findUserByDate($date){
 		$stmt = self::$pdo->query('
-		    SELECT
-		      *
-		    FROM
-		      CheckinLogs
-		    LEFT JOIN
-		      IDms
-		    ON 
-		      CheckinLogs.idm_id = IDms.idm_id
-		    LEFT JOIN
-		      Users
-		    ON
-		      IDms.user_id = Users.user_id
-		    WHERE
-		      date(checkin_time) = date(?);
+			SELECT
+			  *
+			FROM
+			  CheckinLogs
+			LEFT JOIN
+			  IDms
+			ON 
+			  CheckinLogs.idm_id = IDms.idm_id
+			LEFT JOIN
+			  Users
+			ON
+			  IDms.user_id = Users.user_id
+			WHERE
+			  date(checkin_time) = date(?);
 		');
 
 		$stmt->bindParam(1, $date, PDO::PARAM_STR);
+		$stmt->execute();
+		// $this->_decorate($stmt);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function findLOCALogByUserID($userID){
+		$stmt = self::$pdo->query('
+			SELECT
+			  *
+			FROM
+			  Payments
+			WHERE
+			  Payments.user_id = ?
+			UNION
+			SELECT
+			  *
+			FROM
+			  Deposits
+			WHERE
+			  Deposits.user_id = ?
+			ORDER BY datetime DESC;
+
+		');
+
+		$stmt->bindParam(1, $userID, PDO::PARAM_STR);
+		$stmt->bindParam(2, $userID, PDO::PARAM_STR);
 		$stmt->execute();
 		// $this->_decorate($stmt);
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);

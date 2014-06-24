@@ -5,6 +5,10 @@ require_once $rootPass. 'lib/db/Mapper/IDmMapper.php';
 require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
+require_once $rootPass. 'lib/db/Mapper/PaymentMapper.php';
+require_once $rootPass. 'lib/db/Model/Payment.php';
+require_once $rootPass. 'lib/db/Mapper/DepositMapper.php';
+require_once $rootPass. 'lib/db/Model/Deposit.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 require_once $rootPass. 'lib/db/dbFacade.php';
 
@@ -22,6 +26,24 @@ function getLogInstance($idmId = 1){
 	return $log;
 }
 
+function getPaymentInstance($name = "test支払"){
+	$payment = new Payment;
+	$payment->payment_name = $name;
+	$payment->user_id = 1;
+	$payment->price = 100;
+	$payment->datetime = date('Y-m-d');
+	return $payment;
+}
+
+function getDepositInstance($name = "test入金"){
+	$deposit = new Deposit;
+	$deposit->deposit_name = $name;
+	$deposit->user_id = 1;
+	$deposit->price = 100;
+	$deposit->datetime = date('Y-m-d');
+	return $deposit;
+}
+
 class DBFacadeTest extends PHPUnit_Framework_TestCase{
 	static $pdo;
 
@@ -37,7 +59,8 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
         $pdo->beginTransaction();
         $pdo->query('DELETE FROM IDms');
         $pdo->query('DELETE FROM CheckinLogs');
-        $pdo->query('DELETE FROM IDms');
+        $pdo->query('DELETE FROM Payments');
+        $pdo->query('DELETE FROM Deposits');
         $pdo->commit();
     }
 
@@ -94,4 +117,17 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		// echo 'date: '. $newLogs[0]['checkin_time'];
 		$this->assertEquals($log->checkin_time, $newLogs[0]['checkin_time']);
 	}
+
+	public function testfindLOCAByUserID(){
+		$pmapper = new PaymentMapper(self::$pdo);
+		$dmapper = new DepositMapper(self::$pdo);
+		$dbfacade = DBFacade::I(self::$pdo);
+		$payment = getPaymentInstance();
+		$deposit = getDepositInstance();
+		$pmapper->insert($payment);
+		$dmapper->insert($deposit);
+		$result = $dbfacade->findLOCALogByUserID(1);// instanceは二つともuser_id=1になっているため
+		$this->assertEquals(2, count($result));
+	}
+
 }

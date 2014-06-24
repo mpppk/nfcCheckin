@@ -6,11 +6,12 @@ require_once $rootPass. 'lib/db/Model/IDm.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
 
 // 指定したパラメータのidmインスタンスを返す
-function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345, $arg_cardName = 'testCardName'){
+function getIDmInstance($arg_userId = 1, $arg_idmNo = 12345, $arg_cardName = 'testCardName', $arg_checkinNum = '1'){
 	$idm = new IDm;
 	$idm->user_id = $arg_userId;
 	$idm->idm_no = $arg_idmNo;
 	$idm->card_name = $arg_cardName;
+	$idm->checkin_num = $arg_checkinNum;
 	return $idm;
 }
 

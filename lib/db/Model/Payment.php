@@ -6,7 +6,7 @@ require_once (dirname(__FILE__) . "/DataModel.php");
  *
  * @group model
  */
-class User extends DataModel{
+class Payment extends DataModel{
     
     protected static $_schema = array(
         'payment_id'   => parent::INTEGER
@@ -17,6 +17,7 @@ class User extends DataModel{
     );
 
     function isValid(){
+    	return true;
     }
 }
 ?>

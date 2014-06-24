@@ -12,6 +12,7 @@ class IDm extends DataModel{
       , 'user_id'    => parent::INTEGER
       , 'idm_no'     => parent::STRING
       , 'card_name'  => parent::STRING
+      , 'checkin_num'  => parent::INTEGER
     );
 
     function isValid(){

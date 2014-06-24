@@ -53,7 +53,6 @@ $(function() {
             var self = this;
         },
         '#addChargeBtn click': function() {
-            console.log('chargeBtn pushed');
             this.$find('#auto_modal').modal('show');
             // $('#auto_modal').modal('show');
         },
@@ -65,7 +64,6 @@ $(function() {
             tr = tr.eq(0);
             tr.append($('<td>').text(context.evArg.billName));
             tr.append($('<td>').text('test'));
-
         },
 
         hide: function(){

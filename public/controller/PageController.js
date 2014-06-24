@@ -1,4 +1,5 @@
 $(function() {
+    var tempLoginUserID = 1;
     var pageController = {
         __name: 'PageController',
         _helloWorldController: helloWorldController,
@@ -83,9 +84,8 @@ $(function() {
             // ログ画面以外のDOM要素を隠す処理
         },
         '{rootElement} moveToStatus': function(){
-            var tempUserID = 31;// 実際はログインしているユーザのIDを利用する
             $.sidr('close', 'sidr');
-            this._userController.load(tempUserID);
+            this._userController.load(tempLoginUserID);
             this.hideWithout(this._userController);
             this._navController.changeTitle('Status');
         },
@@ -109,8 +109,7 @@ $(function() {
             this._navController.changeTitle('Calendar');
         },
         '{rootElement} moveToDevice': function(){
-            var tempUserID = 201;// 実際はログインしているユーザのIDを利用する
-            this._deviceController.load(tempUserID);
+            this._deviceController.load(tempLoginUserID);
             this.hideWithout(this._deviceController);
             $.sidr('close', 'sidr');
             this._navController.changeTitle('Device');

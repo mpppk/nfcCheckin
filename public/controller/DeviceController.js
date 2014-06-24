@@ -1,4 +1,4 @@
-var tempLoginUserID = 201;
+var tempLoginUserID = 1;
 
 $(function() {
     var deviceLogic = {

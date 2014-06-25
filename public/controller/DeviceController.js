@@ -52,10 +52,6 @@ $(function() {
                 }
             });
         },
-        // sync: function(data){
-        //     console.log('device synced');
-        //     console.log(data);
-        // },
         syncFailue: function(){
             console.log('sync failued');
         },

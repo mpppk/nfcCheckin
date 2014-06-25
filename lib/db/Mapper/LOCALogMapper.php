@@ -1,8 +1,8 @@
 <?php
 require_once (dirname(__FILE__) . "/DataMapper.php");
 
-class DepositMapper extends DataMapper{
-    const MODEL_CLASS = 'Deposit';
+class LOCALogMapper extends DataMapper{
+    const MODEL_CLASS = 'LOCALog';
 
     // ------------- 更新系クエリ -----------------
 
@@ -15,13 +15,14 @@ class DepositMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $pdo->prepare('
-            INSERT INTO Deposits(deposit_name, user_id, price, datetime)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO LOCALogs(name, user_id, price, datetime, type)
+            VALUES (?, ?, ?, ?, ?)
         ');
-        $stmt->bindParam(1, $depositName,   PDO::PARAM_STR);
+        $stmt->bindParam(1, $name,   PDO::PARAM_STR);
         $stmt->bindParam(2, $userID, PDO::PARAM_INT);
         $stmt->bindParam(3, $price, PDO::PARAM_INT);
         $stmt->bindParam(4, $datetime, PDO::PARAM_STR);
+        $stmt->bindParam(5, $type, PDO::PARAM_STR);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -30,14 +31,15 @@ class DepositMapper extends DataMapper{
             if (! $row instanceof $modelClass || ! $row->isValid()) {
                 throw new InvalidArgumentException;
             }
-            $depositName = $row->deposit_name;
+            $name = $row->name;
             $userID = $row->user_id;
             $price = $row->price;
             $datetime = $row->datetime;
+            $type = $row->type;
             $stmt->execute();
 
             //autoincrementな主キーをオブジェクト側へ反映
-            $row->deposit_id = $pdo->lastInsertId();
+            $row->loca_id = $pdo->lastInsertId();
         }
     }
 
@@ -45,18 +47,20 @@ class DepositMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $this->_pdo->prepare('
-            UPDATE Deposits
-               SET deposit_name = ?
+            UPDATE LOCALogs
+               SET name = ?
                  , user_id = ?
                  , price = ?
                  , datetime = ?
-             WHERE deposit_id = ?
+                 , type = ?
+             WHERE loca_id = ?
         ');
-        $stmt->bindParam(1, $depositName,  PDO::PARAM_STR);
+        $stmt->bindParam(1, $name,  PDO::PARAM_STR);
         $stmt->bindParam(2, $userID,   PDO::PARAM_STR);
         $stmt->bindParam(3, $price,   PDO::PARAM_STR);
         $stmt->bindParam(4, $datetime, PDO::PARAM_STR);
-        $stmt->bindParam(5, $depositID, PDO::PARAM_INT);
+        $stmt->bindParam(5, $type, PDO::PARAM_STR);
+        $stmt->bindParam(6, $locaID, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -65,11 +69,12 @@ class DepositMapper extends DataMapper{
             if (! $row instanceof $modelClass || ! $row->isValid()) {
                 throw new InvalidArgumentException;
             }
-            $depositID = $row->deposit_id;
-            $depositName  = $row->deposit_name;
+            $locaID = $row->loca_id;
+            $name  = $row->name;
             $userID   = $row->user_id;
             $price = $row->price;
             $datetime   = $row->datetime;
+            $type   = $row->type;
             $stmt->execute();
 
         }
@@ -79,10 +84,10 @@ class DepositMapper extends DataMapper{
         $modelClass = self::MODEL_CLASS;
 
         $stmt = $this->_pdo->prepare('
-            DELETE FROM Deposits
-             WHERE deposit_id = ?
+            DELETE FROM LOCALogs
+             WHERE loca_id = ?
         ');
-        $stmt->bindParam(1, $depositID, PDO::PARAM_INT);
+        $stmt->bindParam(1, $locaID, PDO::PARAM_INT);
 
         if (! is_array($data)) {
             $data = array($data);
@@ -91,43 +96,64 @@ class DepositMapper extends DataMapper{
             if (! $row instanceof $modelClass) {
                 throw new InvalidArgumentException;
             }
-            $depositID = $row->deposit_id;
+            $locaID = $row->loca_id;
             $stmt->execute();
         }
     }
 
     //------------- 参照系クエリ ----------------
 
-    function find($depositID){
+    function find($locaID){
         $stmt = $this->_pdo->prepare('
             SELECT *
-              FROM Deposits
-             WHERE deposit_id = ?
+              FROM LOCALogs
+             WHERE loca_id = ?
         ');
-        $stmt->bindParam(1, $depositID, PDO::PARAM_INT);
+        $stmt->bindParam(1, $locaID, PDO::PARAM_INT);
         $stmt->execute();
 
         $this->_decorate($stmt);
         return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
-    function findByUserID($userID){
+    function findAllByUserID($userID){
         $stmt = $this->_pdo->prepare('
             SELECT *
-              FROM Deposits
+              FROM LOCALogs
              WHERE user_id = ?
+             ORDER BY datetime DESC;
         ');
         $stmt->bindParam(1, $userID, PDO::PARAM_INT);
         $stmt->execute();
 
         $this->_decorate($stmt);
-        return $stmt->fetch(PDO::FETCH_CLASS);
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    function findAllOfMonth($year, $month, $type){
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+        $ym = $year. '-'. $month. '%';
+        $stmt = $this->_pdo->prepare('
+            SELECT *
+            FROM LOCALogs
+            WHERE type = ?
+            AND datetime LIKE ?
+            ORDER BY datetime DESC;
+        ');
+
+        $stmt->bindParam(1, $type, PDO::PARAM_STR);
+        $stmt->bindParam(2, $ym, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $this->_decorate($stmt);
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+
     }
 
     function findAll(){
         $stmt = $this->_pdo->query('
             SELECT *
-              FROM Deposits
+              FROM LOCALogs
         ');
         return $this->_decorate($stmt);
     }

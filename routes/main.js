@@ -1,7 +1,5 @@
 var dbName = 'sample';
 
-
-
 exports.index = function(req, res){
 	res.render('index', { title: 'Express' });
 };
@@ -66,12 +64,9 @@ exports.touch = function(req, res){
 }
 
 exports.getCheckinMember = function(req, res){
-	console.log('in getCheckinMember');
 	var month = ('0' + req.params.month).slice(-2);
 	var day = ('0' + req.params.day).slice(-2);
-	// ( '00' + num ).slice( -3 );
 	var date = req.params.year + '-' + month + '-' + day;
-	console.log(date);
 	var spawn = require('child_process').spawn;
 	var php = spawn('php', ['public/api/getCheckinMember.php ', date, dbName]);
 	php.stdout.on('data', function(data){
@@ -86,18 +81,18 @@ exports.getCheckinMember = function(req, res){
 	});
 }
 
-// ユーザのsync申請を受け付ける
-// exports.startSync = function(req, res){
-// 	// 他のユーザがsync状態であれば失敗
-// 	if(isSyncMode == true){
-// 		res.send(false);
-// 	}
-// 	// そうでなければsync開始
-// 	isSyncMode = true;
-// 	// 一定時間後にstop
-// 	setTimeout(function(){
-// 		isSyncMode = false;
-// 	}, 10000);
-// 	res.send(true);
-// }
+exports.getLOCALogs = function(req, res){
+	var spawn = require('child_process').spawn;
+	var php = spawn('php', ['public/api/getLOCALog.php', req.params.id, dbName]);
+	php.stdout.on('data', function(data){
+		res.end(data);
+	});
+
+	php.stderr.on('data', function(data){
+		res.end('stderr: ' + data);
+	});
+
+	php.on('exit', function(code){
+	});
+}
 

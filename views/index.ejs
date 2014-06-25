@@ -37,6 +37,7 @@
 		<script src="lib/h5/ejs_fulljslint.js"></script>
 		
 		<!-- コントローラの読み込み(順番に注意) -->
+		<script src="controller/LOCAController.js"></script>
 		<script src="controller/DModalController.js"></script>
 		<script src="controller/DeviceController.js"></script>
 		<script src="controller/PaymentController.js"></script>
@@ -87,8 +88,9 @@
 					<li id='drawerLogs'><a href="#logs">Logs</a></li>
 					<li id='drawerStatus'><a href="#status">Status</a></li>
 					<li id='drawerCalendar'><a href="#calendar">Calendar</a></li>
-					<li id='drawerPayment'><a href="#payment">Payment</a></li>
-					<li id='drawerDeposit'><a href="#deposit">Deposit</a></li>
+					<li id='drawerLOCA'><a href="#loca">LOCA</a></li>
+<!-- 					<li id='drawerPayment'><a href="#payment">Payment</a></li>
+					<li id='drawerDeposit'><a href="#deposit">Deposit</a></li> -->
 					<li id='drawerDevice'><a href="#device">Device</a></li>
 				</ul>
 			</div><!-- #sidr -->
@@ -136,6 +138,9 @@
 
 			<div id="payment"></div>
 			<div id="deposit"></div>
+			<div id="loca">
+				<table class="table table-striped" id="locaTable"></table>
+			</div>
 			
 			<!-- device -->
 			<div id="device">

@@ -37,6 +37,10 @@ $(function() {
             this.trigger('moveToCalendar')
         },
 
+        '#drawerLOCA click': function() {
+            this.trigger('moveToLOCA')
+        },
+
         '#drawerPayment click': function() {
             this.trigger('moveToPayment')
         },

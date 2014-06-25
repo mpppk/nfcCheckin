@@ -49,7 +49,7 @@ app.get('/logs', routes.getLogs);
 app.post('/touch', routes.touch);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
-// app.get('/sync/:id([0-9]+)', routes.startSync);
+app.get('/locaLog/:id([0-9]+)', routes.getLOCALogs);
 // app.get('/checkinMember', routes.getLogs);
 app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
 app.post('/login',

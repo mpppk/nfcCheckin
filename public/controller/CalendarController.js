@@ -48,6 +48,10 @@ $(function() {
             });
             this.showInfo();
         },
+        arrangeCheckinEvent: function(){
+
+            
+        },
         showInfo: function(){
             console.log('in showInfo');
             var self = this;

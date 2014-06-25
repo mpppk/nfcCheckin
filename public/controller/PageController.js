@@ -11,6 +11,7 @@ $(function() {
         _navController: navController,
         _loginController: loginController,
         _calendarController: calendarController,
+        _LOCAController: LOCAController,
         _deviceController: deviceController,
 
         mySocket: io.connect('http://192.168.33.10:3000'),
@@ -42,6 +43,9 @@ $(function() {
             },
             _calendarController:{
                 rootElement: '#calendar'
+            },
+            _LOCAController:{
+                rootElement: '#loca'
             },
             _deviceController:{
                 rootElement: '#device'
@@ -89,6 +93,11 @@ $(function() {
             this.hideWithout(this._userController);
             this._navController.changeTitle('Status');
         },
+        '{rootElement} moveToLOCA': function(){
+            this.hideWithout(this._LOCAController);
+            $.sidr('close', 'sidr');
+            this._navController.changeTitle('LOCA');
+        },
         '{rootElement} moveToPayment': function(){
             this.hideWithout(this._paymentController);
             $.sidr('close', 'sidr');
@@ -123,6 +132,7 @@ $(function() {
             this._depositController.hide();
             this._loginController.hide();
             this._deviceController.hide();
+            this._LOCAController.hide();
             controller.show();
         }
     };

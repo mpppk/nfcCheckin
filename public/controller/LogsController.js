@@ -51,12 +51,17 @@ $(function() {
                 userName = json.userName;
             }
             var ulObj = $('#logsTable');
-            ulObj.prepend($("<tr>").hide());
+            ulObj.prepend($("<tr class=\"success\">").hide());
             var tr = ulObj.find( $( 'tbody tr:eq(0)' ) );
             tr.append($("<td>").text(userName));
             tr.append($("<td>").text(json.checkinTime));
             tr.append($("<td>").text('test'));
             tr.show('slow');
+            setTimeout(function(){
+                tr.hide();
+                tr.attr({class: ''});
+                tr.show('fast');
+            }, 5000);
         },
         hide: function(){
             $(this.rootElement).hide('slow');

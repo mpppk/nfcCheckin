@@ -32,7 +32,19 @@ $(function() {
                 for(var i = 0; i < len; i++) {
                     var name = data[i].name;
                     if(data[i].name == null)   name = 'no name';
-                    table.append($("<tr>"));
+                    var className = '';
+                    switch (data[i].type){
+                      case 'payment':
+                        className = 'danger';
+                        break;
+                      case 'deposit':
+                        className = 'success';
+                        break;
+                      case 'charge':
+                        className = 'warning';
+                        break;
+                    }
+                    table.append($("<tr class=" + className + ">"));
                     var tr = table.find($('tr'));
                     tr = tr.eq(i);
                     tr.append($("<td>").text(name));
@@ -43,7 +55,26 @@ $(function() {
 
             });
         },
-
+        '#locaAllBtn click': function(){
+            this.$find('.danger').show('fast');
+            this.$find('.success').show('fast');
+            this.$find('.warning').show('fast');
+        },
+        '#locaPaymentBtn click': function(){
+            this.$find('.danger').show('slow');
+            this.$find('.success').hide('fast');
+            this.$find('.warning').hide('fast');
+        },
+        '#locaDepositBtn click': function(){
+            this.$find('.danger').hide('fast');
+            this.$find('.success').show('slow');
+            this.$find('.warning').hide('fast');
+        },
+        '#locaChargeBtn click': function(){
+            this.$find('.danger').hide('fast');
+            this.$find('.success').hide('fast');
+            this.$find('.warning').show('slow');
+        },
         hide: function(){
             $(this.rootElement).hide('slow');
         },

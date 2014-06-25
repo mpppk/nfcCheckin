@@ -72,6 +72,29 @@ class DBFacade{
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function findAllLogByUser($userID){
+		$stmt = self::$pdo->query('
+			SELECT
+			  user_name,
+			  checkin_time
+			FROM
+			  CheckinLogs
+			LEFT JOIN
+			  IDms
+			ON 
+			  CheckinLogs.idm_id = IDms.idm_id
+			LEFT JOIN
+			  Users
+			ON
+			  IDms.user_id = Users.user_id
+			WHERE Users.user_id = ?
+			ORDER BY checkin_time DESC;
+		');
+		$stmt->bindParam(1, $userID, PDO::PARAM_INT);
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public function getAllLog(){
 		$result = $this->findAllWithUser();
 		return $result;
@@ -117,7 +140,6 @@ class DBFacade{
 			WHERE
 			  Deposits.user_id = ?
 			ORDER BY datetime DESC;
-
 		');
 
 		$stmt->bindParam(1, $userID, PDO::PARAM_STR);

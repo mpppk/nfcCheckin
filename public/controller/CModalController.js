@@ -16,7 +16,7 @@ $(function() {
             var eventData;
             if (chargePrice) {
                 eventData = {
-                    title: chargePrice + 'LOCA',
+                    title: tempBillName,
                     start: g_start,
                     end: g_end
                 };

@@ -1,12 +1,76 @@
 $(function() {
+    var tempLoginID = 1;
     var calendarLogic = {
         __name: 'calendarLogic',
         getCheckinMember: function(startMoment){
             var dfd = this.deferred();
             var uri = '/checkinMember/' + startMoment.format('YYYY/MM/DD');
-            console.log('uri ' + uri);
             $.getJSON(uri).done(function(data){
                 dfd.resolve(data);
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        },
+        getBillOfMonth: function(year, month){
+            var dfd = this.deferred();
+            var uri = '/locaOfMonth/' + year + '/' + month + '/charge';
+            $.getJSON(uri).done(function(data){
+                dfd.resolve(data);
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        },
+        getLogByUserID: function(userID){
+            var dfd = this.deferred();
+            var uri = '/logs/' + userID;
+            $.getJSON(uri).done(function(data){
+                dfd.resolve(data);
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        },
+        getCheckinLogEv: function(userID){
+            var dfd = this.deferred();
+            // 自分がチェックインしてない日のbillは表示しない処理をいつの日にか入れる
+            this.getLogByUserID(userID).done(function(data){
+                var len = data.length;
+                var result = [];
+                for (var i = 0; i < len; i++) {
+                    result.push({
+                        title: 'checkin',
+                        start: data[i].checkin_time,
+                        color: 'green'
+                    });
+                };
+                dfd.resolve(result);
+                // dfd.resolve( JSON.stringify(result) );
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        },
+        getBillOfMonthEv: function(year, month){
+            var dfd = this.deferred();
+            // 自分がチェックインしてない日のbillは表示しない処理をいつの日にか入れる
+            this.getBillOfMonth(year, month).done(function(data){
+                var len = data.length;
+                var result = [];
+                for (var i = 0; i < len; i++) {
+                    var evColor = 'red';
+                    if(data[i].user_id == tempLoginID){
+                        evColor = 'blue';
+                    }
+                    result.push({
+                        title: data[i].name,
+                        start: data[i].datetime,
+                        color: evColor
+                    });
+                };
+                dfd.resolve(result);
+                // dfd.resolve( JSON.stringify(result) );
             }).fail(function(error) {
                 dfd.reject(error.message);
             });
@@ -28,7 +92,7 @@ $(function() {
                 select: function(start, end) {
                     self.$find('#calendarInfo').show('fast');
                     self.calendarLogic.getCheckinMember(start).done(function(data){
-                            self.$find('#calendarInfo').find($('h1')).text(start.format('YYYY-MM-DD'));
+                            self.$find('#calendarInfo').find($('h1')).text('Checkin Members ' + start.format('YYYY-MM-DD'));
                             var table = self.$find('#checkinMemberTable');
                             table.empty();
                             var len = data.length;
@@ -46,22 +110,31 @@ $(function() {
                     g_end = end;
                 }
             });
-            this.showInfo();
+            this.arrangeCheckinEvent();
         },
         arrangeCheckinEvent: function(){
-
-            
-        },
-        showInfo: function(){
-            console.log('in showInfo');
             var self = this;
+            var calendar = $(this.rootElement).find('#fullcalendar');
+            // ユーザのチェックイン情報を配置する
+            this.calendarLogic.getCheckinLogEv(tempLoginUserID).done(function(data){
+                console.log(data);
+                for(var i = 0; i < data.length; i++){
+                    calendar.fullCalendar('renderEvent', data[i]);
+                }
+            });
+
+            // billを配置する
+            this.calendarLogic.getBillOfMonthEv(2014, 6).done(function(data){
+                for(var i = 0; i < data.length; i++){
+                    calendar.fullCalendar('renderEvent', data[i]);
+                }
+            });
         },
         '#addChargeBtn click': function() {
             this.$find('#auto_modal').modal('show');
             // $('#auto_modal').modal('show');
         },
         '{rootElement} addBill': function(context){
-            console.log('billName' + context.evArg.billName);
             var table = this.$find('#checkinMemberTable');
             table.prepend($('<tr>'));
             var tr = table.find($('tr'));

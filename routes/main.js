@@ -81,9 +81,42 @@ exports.getCheckinMember = function(req, res){
 	});
 }
 
+exports.getLOCAOfMonth = function(req, res){
+	var month = ('0' + req.params.month).slice(-2);
+	var spawn = require('child_process').spawn;
+	var php = spawn('php', ['public/api/getLOCALogOfMonth.php ', req.params.year, month, req.params.type, dbName]);
+	php.stdout.on('data', function(data){
+		res.send(data);
+	});
+
+	php.stderr.on('data', function(data){
+		res.send('stderr: ' + data);
+	});
+
+	php.on('exit', function(code){
+	});
+}
+
+
 exports.getLOCALogs = function(req, res){
 	var spawn = require('child_process').spawn;
 	var php = spawn('php', ['public/api/getLOCALog.php', req.params.id, dbName]);
+	php.stdout.on('data', function(data){
+		res.end(data);
+	});
+
+	php.stderr.on('data', function(data){
+		res.end('stderr: ' + data);
+	});
+
+	php.on('exit', function(code){
+	});
+}
+
+exports.getLogsByUserID = function(req, res){
+	console.log('in /logs/userID');
+	var spawn = require('child_process').spawn;
+	var php = spawn('php', ['public/api/getCheckinLogByUserID.php', req.params.userid, dbName]);
 	php.stdout.on('data', function(data){
 		res.end(data);
 	});

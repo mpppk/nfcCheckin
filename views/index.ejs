@@ -13,6 +13,7 @@
 		<script src="lib/sidr/jquery.sidr.min.js"></script>
 		<script src="lib/underscore/underscore-min.js"></script>
 		<script src="lib/moment/moment-with-langs.min.js"></script>
+		<script src="lib/Chart.js/Chart.min.js"></script>
 		<!-- // <script src="lib/CLNDR/clndr.min.js"></script> -->
 		<script src="/socket.io/socket.io.js"></script>
 
@@ -29,7 +30,6 @@
 		<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
-
 		<!-- hifiveフレームワークの読み込み -->
 		<script src="lib/h5/ejs-1.0.h5mod.js"></script>
 		<script src="lib/h5/h5-1.1.10.dev.js"></script><!-- 開発時は h5.dev.js を読み込む-->
@@ -40,8 +40,6 @@
 		<script src="controller/LOCAController.js"></script>
 		<script src="controller/DModalController.js"></script>
 		<script src="controller/DeviceController.js"></script>
-		<script src="controller/PaymentController.js"></script>
-		<script src="controller/DepositController.js"></script>
 		<script src="controller/CModalController.js"></script>
 		<script src="controller/CalendarController.js"></script>
 		<script src="controller/HelloWorldController.js"></script>
@@ -96,9 +94,38 @@
 			</div><!-- #sidr -->
 			<div id= "user"><!-- ユーザ情報 -->
 				<div id="userInfo">
-					<div id="userName"></div>
-					<div id="userProfile"></div>
-					<div id="userLOCA"></div>
+					<div class="page-header"><h1 id="userName"><small></small></h1></div>
+					<div id="graphArea">
+						<!-- LOCA残高 -->
+						<div class="panel panel-default">
+						  <div class="panel-heading">
+							<h2 class="panel-title" id = "userLOCA"></h2>
+						  </div>
+						  <div class="panel-body">
+							<canvas id="LOCAChart" width="400" height="400"></canvas>
+						  </div>
+						</div> <!-- panel -->
+
+						<!-- check in回数 -->
+						<div class="panel panel-default">
+						  <div class="panel-heading">
+							<h3 class="panel-title" id = "userCheckinNum"></h3>
+						  </div>
+						  <div class="panel-body">
+							<canvas id="CheckinChart" width="400" height="400"></canvas>
+						  </div>
+						</div>
+
+						<!-- check in時間帯 -->
+						<div class="panel panel-default">
+						  <div class="panel-heading">
+							<h3 class="panel-title" id = "userCheckinTime"></h3>
+						  </div>
+						  <div class="panel-body">
+							<canvas id="timeChart" width="400" height="400"></canvas>
+						  </div>
+						</div>
+					</div> <!-- graphArea -->
 				</div><!-- #userInfo -->
 			</div><!-- #user -->
 

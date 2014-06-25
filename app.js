@@ -46,12 +46,15 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 // ルーティングの設定
 app.get('/', routes.index);
 app.get('/logs', routes.getLogs);
+app.get('/logs/:userid([0-9]+)', routes.getLogsByUserID);
 app.post('/touch', routes.touch);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
 app.get('/locaLog/:id([0-9]+)', routes.getLOCALogs);
 // app.get('/checkinMember', routes.getLogs);
 app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
+app.get('/locaOfMonth/:year([0-9]+)/:month([0-9]+)/:type', routes.getLOCAOfMonth);
+
 app.post('/login',
 passport.authenticate('local', { successRedirect: '/',
 	 failureRedirect: '/',

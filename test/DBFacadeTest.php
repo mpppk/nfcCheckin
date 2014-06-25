@@ -52,19 +52,19 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		$pdo = self::$pdo = getPDO('test');
 	}
 
-    //テストの度にDBをクリーンな状態に戻す。
-    function setUp(){
-        $pdo = self::$pdo;
-        // DB clean up
-        $pdo->beginTransaction();
-        $pdo->query('DELETE FROM IDms');
-        $pdo->query('DELETE FROM CheckinLogs');
-        $pdo->query('DELETE FROM Payments');
-        $pdo->query('DELETE FROM Deposits');
-        $pdo->commit();
-    }
+	//テストの度にDBをクリーンな状態に戻す。
+	function setUp(){
+		$pdo = self::$pdo;
+		// DB clean up
+		$pdo->beginTransaction();
+		$pdo->query('DELETE FROM IDms');
+		$pdo->query('DELETE FROM CheckinLogs');
+		$pdo->query('DELETE FROM Payments');
+		$pdo->query('DELETE FROM Deposits');
+		$pdo->commit();
+	}
 
-    // checkinメソッドが正しく動作しているかのテスト
+	// checkinメソッドが正しく動作しているかのテスト
 	public function testCheckin(){
 		$imapper = new IDmMapper(self::$pdo);
 		$cmapper = new CheckinLogMapper(self::$pdo);
@@ -83,6 +83,26 @@ class DBFacadeTest extends PHPUnit_Framework_TestCase{
 		$dbfacade->checkin('unknownIDm');
 		$log = $cmapper->findByIDmId($idm->idm_id);
 		$this->assertEquals($log->idm_id, $idm->idm_id);
+	}
+
+	public function testFindAllLogByUser(){
+		$imapper = new IDmMapper(self::$pdo);
+		$cmapper = new CheckinLogMapper(self::$pdo);
+
+		// IDmテーブルにレコードを追加
+		$idm = getIDmInstance();
+		$imapper->insert($idm);
+
+		// すでにIDmテーブルに存在するIDmでチェックインした場合
+		$dbfacade = DBFacade::I(self::$pdo);
+		$dbfacade->checkin($idm->idm_no);
+
+		// IDmテーブルに存在しないIDmでチェックインした場合
+		$dbfacade->checkin('unknownIDm');
+
+		$dbfacade = DBFacade::I(self::$pdo);
+		$result = $dbfacade->findAllLogByUser(1);
+		$this->assertEquals(1, count($result));
 	}
 
 	public function testGetAllLog(){

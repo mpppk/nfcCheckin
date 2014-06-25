@@ -5,8 +5,6 @@ $(function() {
         _helloWorldController: helloWorldController,
         _logsController: logsController,
         _userController: userController,
-        _paymentController: paymentController,
-        _depositController: depositController,
         _drawerController: drawerController,
         _navController: navController,
         _loginController: loginController,
@@ -25,12 +23,6 @@ $(function() {
         	},
             _userController:{
                 rootElement: '#user'
-            },
-            _paymentController:{
-                rootElement: '#payment'
-            },
-            _depositController:{
-                rootElement: '#deposit'
             },
             _drawerController:{
                 rootElement: '#sidr'
@@ -128,8 +120,6 @@ $(function() {
             this._logsController.hide();
             this._userController.hide();
             this._calendarController.hide();
-            this._paymentController.hide();
-            this._depositController.hide();
             this._loginController.hide();
             this._deviceController.hide();
             this._LOCAController.hide();

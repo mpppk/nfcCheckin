@@ -55,8 +55,7 @@ class DBFacade{
 	public function findAllWithUser(){
 		$stmt = self::$pdo->query('
 			SELECT
-			  user_name,
-			  checkin_time
+			  *
 			FROM
 			  CheckinLogs
 			LEFT JOIN
@@ -75,8 +74,7 @@ class DBFacade{
 	public function findAllLogByUser($userID){
 		$stmt = self::$pdo->query('
 			SELECT
-			  user_name,
-			  checkin_time
+			  *
 			FROM
 			  CheckinLogs
 			LEFT JOIN

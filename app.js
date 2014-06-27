@@ -51,7 +51,6 @@ app.post('/touch', routes.touch);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
 app.get('/locaLog/:id([0-9]+)', routes.getLOCALogs);
-// app.get('/checkinMember', routes.getLogs);
 app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
 app.get('/locaOfMonth/:year([0-9]+)/:month([0-9]+)/:type', routes.getLOCAOfMonth);
 
@@ -69,6 +68,7 @@ io = require('socket.io').listen(server);
 
 // グローバル汚染の罪を噛み締めながらsync状態を管理
 isSyncMode = false;
+syncSocket = null;
 
 io.sockets.on('connection', function (socket) {
 		//クライアント側からのイベントを受け取る。
@@ -85,20 +85,27 @@ io.sockets.on('connection', function (socket) {
 				socket.emit('syncRequestResponse', false);
 			}else{
 				socket.emit('syncRequestResponse', true);
+				// そうでなければsync開始
+				isSyncMode = true;
+				syncSocket = socket;
+				// 一定時間後にstop
+				timeoutID = setTimeout(function(){
+					isSyncMode = false;
+				}, 10000);
 			}
 
-			// そうでなければsync開始
-			isSyncMode = true;
-			// 一定時間後にstop
-			timeoutID = setTimeout(function(){
-				isSyncMode = false;
-			}, 10000);
 		});
 
 		// クライアントが同期を中止した際に呼ばれる
 		socket.on('stopSync', function(){
 			isSyncMode = false;
 			clearTimeout(timeoutID);// 何もしなくても10秒後には止まるが、クライアントが途中で切断された場合対策
+		});
+
+		socket.on('deviceAdded', function(data){
+			// this.jsonの中身
+			// cardName, checkinNum, userName, IDm, checkinTime
+			io.sockets.emit('updateUser', data);
 		});
 
 		//接続が解除された時に実行する

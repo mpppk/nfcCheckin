@@ -117,7 +117,6 @@ $(function() {
             var calendar = $(this.rootElement).find('#fullcalendar');
             // ユーザのチェックイン情報を配置する
             this.calendarLogic.getCheckinLogEv(tempLoginUserID).done(function(data){
-                console.log(data);
                 for(var i = 0; i < data.length; i++){
                     calendar.fullCalendar('renderEvent', data[i]);
                 }

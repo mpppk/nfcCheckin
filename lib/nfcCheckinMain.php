@@ -41,12 +41,16 @@ while (true) {
 	$idm = $imapper->findByIDm($log->idm_id);
 	$postData = array();
 	if($idm != NULL){
+		$postData += array('cardName' => $idm->card_name);
+		$postData += array('checkinNum' => $idm->checkin_num);
 		$user = $umapper->find($idm->$user_id);
 		$postData += array('userName' => $user->user_name);
 	}
 	// echo 'time: '. $log->checkin_time;
 	// $postData += array('checkinTime' => 'today');
+	$postData += array('IDm' => $result['IDm']);
 	$postData += array('checkinTime' => $log->checkin_time);
+	var_dump($postData);
 
 	// $postData['userName'] = $user->user_name;
 	// $postData['checkinTime'] = $log->checkin_time;

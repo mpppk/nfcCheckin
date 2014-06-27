@@ -9,6 +9,15 @@ $(function() {
                 dfd.reject(error.message);
             });
             return dfd.promise();
+        },
+        getUser: function(userID){
+            var dfd = this.deferred();
+            $.getJSON("/user/" + userID).done(function(data){
+                dfd.resolve(data);
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
         }
     };
 
@@ -31,14 +40,13 @@ $(function() {
                 for(var i = 0; i < len; i++) {
                     var userName = data[i].user_name;
                     if(data[i].user_name == null)   userName = 'unknown';
-                    ulObj.append($("<tr>"));
-                    // ulObj.append($("<tr>").attr({"data-index":i}));
-                    // var tr = ulObj.find( $( '<tbody> <tr>' ) );
+                    var cardName = data[i].card_name;
+                    if(data[i].card_name == null)   cardName = 'unknown';
+                    ulObj.append($("<tr data-idm=\"" + data[i].idm_no + "\">"));
                     var tr = ulObj.find( $( 'tbody tr:eq(' + i + ')' ) );
-                    // var tr = ulObj.find( $( 'tbody tr' ) );
-                    tr.append($("<td>").text(userName));
-                    tr.append($("<td>").text(data[i].checkin_time));
-                    tr.append($("<td>").text('test'));
+                    tr.append($("<td class=\"userName\">").text(userName));
+                    tr.append($("<td class=\"checkin\">").text(data[i].checkin_time));
+                    tr.append($("<td class=\"cardName\">").text(cardName));
                 }
             });
         },
@@ -47,15 +55,15 @@ $(function() {
             // var ulObj = self.$find('#logsTable');
             var json = JSON.parse(json);
             var userName = 'unknown';
-            if(json.userName){
-                userName = json.userName;
-            }
+            var cardName = 'unknown';
+            if(json.userName){userName = json.userName; }
+            if(json.cardName){cardName = json.cardName; }
             var ulObj = $('#logsTable');
-            ulObj.prepend($("<tr class=\"success\">").hide());
+            ulObj.prepend($("<tr class=\"success\" data-idm=\"" + json.IDm + "\">").hide());
             var tr = ulObj.find( $( 'tbody tr:eq(0)' ) );
-            tr.append($("<td>").text(userName));
-            tr.append($("<td>").text(json.checkinTime));
-            tr.append($("<td>").text('test'));
+            tr.append($("<td class=\"userName\">").text(userName));
+            tr.append($("<td class=\"checkin\">").text(json.checkinTime));
+            tr.append($("<td class=\"cardName\">").text(cardName));
             tr.show('slow');
             setTimeout(function(){
                 tr.hide();
@@ -63,11 +71,33 @@ $(function() {
                 tr.show('fast');
             }, 5000);
         },
+        // 他のユーザがデバイスをsyncした際にLogsを更新するための処理
+        updateUser: function(json){
+            var self = this;
+            console.log('in updateUser');
+            console.log(json);
+            this.logsLogic.getUser(json.userID).done(function(userInfo){
+                // 現在のテーブルから、受け取ったIDmを持つデバイスのユーザ名を変更
+                // 全てのtd要素を取得
+                var table = self.$find('#logsTable');
+                var selector = 'tr[data-idm=\'' + json.IDm + '\']';
+                var trs = table.find(selector);
+                trs.hide();
+                trs.attr({class: 'warning'}).end().find('td.userName').text(userInfo.userName);
+                trs.find('td.cardName').text(json.deviceName);
+                trs.show('fast');
+                setTimeout(function(){
+                    trs.hide();
+                    trs.attr({class: ''});
+                    trs.show('fast');
+                }, 5000);
+
+            });
+        },
         hide: function(){
             $(this.rootElement).hide('slow');
         },
         show: function(){
-            console.log('log show');
             $(this.rootElement).show('slow');
         }
     }

@@ -47,8 +47,6 @@ $(function() {
         __ready: function(){
             var self = this;
             this.hideWithout(this._logsController);
-            console.log('ready');
-
             this.mySocket.on('syncRequestResponse', function(isSuccess){
                 if(isSuccess){
                     self._deviceController.startSync();
@@ -57,8 +55,21 @@ $(function() {
                 }
             });
 
+            // 誰かがデバイスをsyncした場合(まだデバイス名は決めていない状態)
             this.mySocket.on('deviceFound', function(json){
+                // jsonの中身
+                // cardName, checkinNum, userName, IDm, checkinTime
+
                 self._deviceController.detectDevice(json);
+            });
+
+            // 誰かがデバイスを追加した場合(デバイス名が決定された状態)
+            this.mySocket.on('updateUser', function(json){
+                // this.jsonの中身
+                // cardName, checkinNum, userName, IDm, checkinTime
+                if(tempLoginUserID == json.userID){
+                    self._logsController.updateUser(json);
+                }
             });
 
             // var self = this;
@@ -135,6 +146,7 @@ $(function() {
     //     pageController.load();
     //     pageController._logsController.load();
     // });
+    
     h5.core.controller('body', pageController );
 
     pageController.mySocket.on('touched', function(data){

@@ -8,20 +8,18 @@ $(function() {
 
         dmodalLogic: dmodalLogic,
 
-        json: null,
+        json: 0,
 
+        __ready: function(){
+            var self = this;
+            $(self.rootElement).on('shown.bs.modal', function () {
+                console.log('in shown');
+                self.$find('#deviceName').focus();
+            });
+        },
         '#deviceNameSubmitBtn click': function() {
-            var deviceName = this.$find('#deviceName').val();
-            console.log('deviceName' + deviceName);
-            var table = this.parentController.$find('#deviceTable');
-            table.find('tbody').prepend('<tr></tr>');// こいつが戦犯
-            var tr = table.find('tbody tr:first');
-            tr.append("<td>" + deviceName + "</td>");
-            tr.append('<td>000000</td>');
-            tr.append('<td>test</td>');
-            this.$find('#deviceName').val('');
+            this.trigger('addDeviceToTable');
             $(this.rootElement).modal('hide');
-            // $(this.rootElement).modal('hide');
         },
 
         hide: function(){
@@ -31,12 +29,6 @@ $(function() {
             $(this.rootElement).show('slow');
         }
     }
-
-    $(this.rootElement).on('shown.bs.modal', function () {
-        console.log('dmodal shown');
-        // $('#deviceName').focus();
-        this.$find('#deviceName').focus();
-    });
     h5.core.expose(dmodalController);
 });
 

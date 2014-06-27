@@ -27,6 +27,7 @@ $(function() {
         _dmodalController: dmodalController,
         progressPer: 0,
         intervalID: 0,
+        json: null,
         __ready: function(){
             $(this.rootElement).prepend($("<h1>").text('your devices'));
             this.$find('.progress').hide('slow');
@@ -111,25 +112,28 @@ $(function() {
         },
 
         detectDevice: function(json){
-            console.log('json: ' + json);
-            this._dmodalController.json= json;
+            // jsonの中身
+            // cardName, checkinNum, userName, IDm, checkinTime
+
+            this.json= JSON.parse(json);
             this.$find('#deviceModal').modal('show');
             this.stopSync();
-            // var json = JSON.parse(json);
-            // var userName = 'unknown';
-            // if(json.userName){
-            //     userName = json.userName;
-            // }
-            // var ulObj = $('#logsTable');
-            // ulObj.prepend($("<tr>").hide());
-            // var tr = ulObj.find( $( 'tbody tr:eq(0)' ) );
-            // tr.append($("<td>").text(userName));
-            // tr.append($("<td>").text(json.checkinTime));
-            // tr.append($("<td>").text('test'));
-            // tr.show('slow');
         },
-        addDevice: function(json){
+        '{rootElement} addDeviceToTable': function(){
+            // this.jsonの中身
+            // cardName, checkinNum, userName, IDm, checkinTime
+            var deviceName = this.$find('#deviceName').val();
+            var table = this.parentController.$find('#deviceTable');
+            table.find('tbody').prepend('<tr></tr>');
+            var tr = table.find('tbody tr:first');
+            tr.append("<td>" + deviceName + "</td>");
+            tr.append('<td>000000</td>');
+            tr.append('<td>test</td>');
+            this.json.userID = tempLoginUserID;
+            this.json.deviceName = deviceName;
 
+            this.parentController.mySocket.emit('deviceAdded', this.json);
+            this.$find('#deviceName').val('');// reset
         },
         hide: function(){
             clearInterval(self.intervalID);// ボタンを連続で押した場合に備える
@@ -138,7 +142,6 @@ $(function() {
             $(this.rootElement).hide('slow');
         },
         show: function(){
-            console.log('device show');
             $(this.rootElement).show('slow');
         },
         toggle: function(){

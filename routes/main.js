@@ -54,12 +54,13 @@ exports.getDevice = function(req, res){
 }
 
 exports.touch = function(req, res){
+	// req.body.jsonの中身
+	// cardName, checkinNum, userName, IDm, checkinTime
 	io.sockets.emit('touched', req.body.json);
 	if(isSyncMode){
 		// 本当は全員に投げる必要はないけどとりあえず
-		io.sockets.emit('deviceFound', req.body.json);
+		syncSocket.emit('deviceFound', req.body.json);
 	}
-
 	res.send('touched');
 }
 
@@ -96,7 +97,6 @@ exports.getLOCAOfMonth = function(req, res){
 	php.on('exit', function(code){
 	});
 }
-
 
 exports.getLOCALogs = function(req, res){
 	var spawn = require('child_process').spawn;

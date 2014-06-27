@@ -22,6 +22,15 @@ $(function() {
             });
             return dfd.promise();
         },
+        getLogs: function(){
+            var dfd = this.deferred();
+            $.getJSON("/logs").done(function(data){
+                dfd.resolve(data);
+            }).fail(function(error) {
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        },
         getLogByUserID: function(userID){
             var dfd = this.deferred();
             var uri = '/logs/' + userID;
@@ -111,16 +120,17 @@ $(function() {
                 }
             });
             this.arrangeCheckinEvent();
+            this.setCheckinBackground();
         },
         arrangeCheckinEvent: function(){
             var self = this;
             var calendar = $(this.rootElement).find('#fullcalendar');
             // ユーザのチェックイン情報を配置する
-            this.calendarLogic.getCheckinLogEv(tempLoginUserID).done(function(data){
-                for(var i = 0; i < data.length; i++){
-                    calendar.fullCalendar('renderEvent', data[i]);
-                }
-            });
+            // this.calendarLogic.getCheckinLogEv(tempLoginUserID).done(function(data){
+            //     for(var i = 0; i < data.length; i++){
+            //         calendar.fullCalendar('renderEvent', data[i]);
+            //     }
+            // });
 
             // billを配置する
             this.calendarLogic.getBillOfMonthEv(2014, 6).done(function(data){
@@ -128,6 +138,31 @@ $(function() {
                     calendar.fullCalendar('renderEvent', data[i]);
                 }
             });
+        },
+        setCheckinBackground: function(){
+            var self = this;
+            var calendar = $(this.rootElement).find('#fullcalendar');
+            var userLoginColor = 'rgb(224, 255, 255)';// 224, 255, 255
+            var otherUserLoginColor = 'rgb(255, 240, 245)';// 255, 240, 245
+            this.calendarLogic.getLogs().done(function(data){
+                for(var i = 0; i < data.length; i++){
+                    var selector = 'td[data-date =\'' + data[i].checkin_time + '\']';
+                    console.log($(selector).css('background-color'));
+                    console.log()
+                    if(data[i].user_id == tempLoginUserID){
+                        $(selector).css("background", userLoginColor);
+                    }else if($(selector).css('background-color') != userLoginColor){// ログインユーザがチェックインしていなければ他ユーザがチェックインした場合の色に変更
+                        $(selector).css("background", otherUserLoginColor);
+                    }
+                }
+            });
+
+            // ユーザのチェックイン情報を配置する
+            // this.calendarLogic.getLogByUserID(tempLoginUserID).done(function(data){
+            //     for(var i = 0; i < data.length; i++){
+            //         $('td[data-date =\'' + data[i].checkin_time + '\']').css("background", "#E0FFFF");
+            //     }
+            // });
         },
         '#addChargeBtn click': function() {
             this.$find('#auto_modal').modal('show');

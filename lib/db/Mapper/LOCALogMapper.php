@@ -147,7 +147,6 @@ class LOCALogMapper extends DataMapper{
 
         $this->_decorate($stmt);
         return $stmt->fetchAll(PDO::FETCH_CLASS);
-
     }
 
     function findAll(){

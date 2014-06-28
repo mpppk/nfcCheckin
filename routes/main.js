@@ -68,7 +68,7 @@ exports.getCheckinMember = function(req, res){
 	var day = ('0' + req.params.day).slice(-2);
 	var date = req.params.year + '-' + month + '-' + day;
 	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getCheckinMember.php ', date, dbName]);
+	var php = spawn('php', ['public/api/getCheckinMember.php', date, dbName]);
 	php.stdout.on('data', function(data){
 		res.send(data);
 	});
@@ -84,7 +84,7 @@ exports.getCheckinMember = function(req, res){
 exports.getLOCAOfMonth = function(req, res){
 	var month = ('0' + req.params.month).slice(-2);
 	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getLOCALogOfMonth.php ', req.params.year, month, req.params.type, dbName]);
+	var php = spawn('php', ['public/api/getLOCALogOfMonth.php', req.params.year, month, req.params.type, dbName]);
 	php.stdout.on('data', function(data){
 		res.send(data);
 	});

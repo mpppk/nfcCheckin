@@ -25,7 +25,8 @@ $(function() {
 
             // 親Controllerにテーブルを追加するためのイベント通知
             this.trigger('addBill', {
-                billName: tempBillName
+                billName: tempBillName,
+                price: chargePrice
             });
 
             this.parentController.$find('#fullcalendar').fullCalendar('unselect');

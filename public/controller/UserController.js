@@ -27,9 +27,9 @@ $(function() {
                 self.$find('#userName').empty().prepend(data.userName + '<small></small>');
                 // self.$find('#userName').append($( data.userName + '<small>' + data.profile + '</small>'));
                 self.$find('#userName small').text(' ' + data.profile);
-                self.$find('#userLOCA').empty().append('LOCA残高: ' + data.coin);
-                self.$find('#userCheckinNum').empty().append('今月のチェックイン回数: ' + 12);
-                self.$find('#userCheckinTime').empty().append('チェックイン時間');
+                self.$find('#userLOCA').empty().append('▼LOCA残高: ' + data.coin);
+                self.$find('#userCheckinNum').empty().append('▼今月のチェックイン回数: ' + 12);
+                self.$find('#userCheckinTime').empty().append('▼チェックイン時間');
             });
         },
         '#userLOCA click': function() {

@@ -128,7 +128,7 @@ $(function() {
                                     table.prepend($('<tr>'));
                                     var tr = table.find('tr:eq(0)');
                                     tr.append($('<td>').text(charges[i].name));
-                                    tr.append($('<td>').text(charges[i].price));
+                                    tr.append($('<td>').text('￥' + charges[i].price));
                                 }
                             }
                             self.$find('#checkinMemberPanel').show('fast');
@@ -187,12 +187,15 @@ $(function() {
             // $('#auto_modal').modal('show');
         },
         '{rootElement} addBill': function(context){
-            var table = this.$find('#checkinMemberTable');
-            table.prepend($('<tr>'));
-            var tr = table.find($('tr'));
-            tr = tr.eq(0);
-            tr.append($('<td>').text(context.evArg.billName));
-            tr.append($('<td>').text('test'));
+            var table = this.$find('#calendarInfo div .panel[data-userID=' + tempLoginUserID + '] table');
+            table.prepend($('<tr class=\"success\">'));
+            var tr = table.find('tr:eq(0)');
+            tr.hide().append($('<td>').text(context.evArg.billName));
+            tr.append($('<td>').text('￥' + context.evArg.price));
+            tr.show('fast');
+            setTimeout(function(){
+                tr.attr({class: ''});
+            }, 5000);
         },
 
         hide: function(){

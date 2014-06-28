@@ -1,0 +1,36 @@
+{
+  "name": "nfcCheckin",
+  "version": "0.0.0",
+  "description": "login system with IC card",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "~4.3.0",
+    "body-parser": "~1.4.3",
+    "connect-flash": "~0.1.1",
+    "cookie-parser": "~1.3.1",
+    "method-override": "~2.0.2",
+    "passport-facebook": "~1.0.3",
+    "passport-twitter": "~1.0.2",
+    "passport-local": "~1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mpppk/nfcCheckin.git"
+  },
+  "keywords": [
+    "nfc"
+  ],
+  "author": "mpk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mpppk/nfcCheckin/issues"
+  },
+  "homepage": "https://github.com/mpppk/nfcCheckin"
+}

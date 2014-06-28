@@ -68,9 +68,11 @@ $(function() {
                 var len = data.length;
                 var result = [];
                 for (var i = 0; i < len; i++) {
-                    var evColor = 'red';
+                    var evColor = '#FFB6C1';
+                    // var evColor = 'red';
                     if(data[i].user_id == tempLoginID){
-                        evColor = 'blue';
+                        evColor = '#87CEEB';
+                        // evColor = 'blue';
                     }
                     result.push({
                         title: data[i].name,
@@ -101,7 +103,7 @@ $(function() {
                 select: function(start, end) {
                     self.$find('#calendarInfo').show('fast');
                     self.calendarLogic.getCheckinMember(start).done(function(data){
-                            self.$find('#calendarInfo').find($('h1')).text('Checkin Members ' + start.format('YYYY-MM-DD'));
+                            self.$find('#calendarInfo').find($('h1')).text(start.format('YYYY-MM-DD') + 'にチェックインしていたユーザー');
                             var table = self.$find('#checkinMemberTable');
                             table.empty();
                             var len = data.length;
@@ -147,8 +149,6 @@ $(function() {
             this.calendarLogic.getLogs().done(function(data){
                 for(var i = 0; i < data.length; i++){
                     var selector = 'td[data-date =\'' + data[i].checkin_time + '\']';
-                    console.log($(selector).css('background-color'));
-                    console.log()
                     if(data[i].user_id == tempLoginUserID){
                         $(selector).css("background", userLoginColor);
                     }else if($(selector).css('background-color') != userLoginColor){// ログインユーザがチェックインしていなければ他ユーザがチェックインした場合の色に変更

@@ -61,13 +61,13 @@
 		<nav id="navbar" class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<span id="pageTitle" class="navbar-brand">Brand</span>
+					<span id="pageTitle" class="navbar-brand">使用履歴</span>
 				</div><!-- navbar-header -->
 				<ul class="nav navbar-nav">
-					<li><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-th"></span> menu</a></li>
+					<li><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-th"></span> メニュー</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a id="loginbtn" href="#login"><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-log-in"> login</a></li>
+					<li><a id="loginbtn" href="#login"><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-log-in"> ログイン</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -133,7 +133,7 @@
 				<div id="calendarInfo">
 					<h1></h1>
 					<table class="table table-striped" id="checkinMemberTable"></table>
-					<button type="button" class="btn btn-primary" id="addChargeBtn">charge</button>
+					<button type="button" class="btn btn-primary" id="addChargeBtn">新しい請求を追加</button>
 				</div>
 				<div id="fullcalendar"></div>
 				<!-- modal window -->
@@ -142,21 +142,21 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title">金額</h4>
+								<h4 class="modal-title">請求内容</h4>
 							</div>
 							<div class="modal-body text-center">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label class="sr-only" for="chargeName">charge name</label>
+										<label class="sr-only" for="chargeName">請求名</label>
 										<input type="text" class="form-control" id="chargeNameInput" placeholder="Enter charge name">
-										<label class="sr-only" for="chargeLabel">charge</label>
+										<label class="sr-only" for="chargeLabel">請求額</label>
 										<input type="number" class="form-control" id="chargeInput" placeholder="Enter price" required min="1">
 									</div>
-									<button type="button" class="btn btn-primary" id="chargebtn">charge</button>
+									<button type="button" class="btn btn-primary" id="chargebtn">請求</button>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
 							</div>
 						</div><!-- modal content -->
 					</div><!-- modal dialog -->
@@ -179,7 +179,7 @@
 			<!-- device -->
 			<div id="device">
 				<table class="table table-striped" id="deviceTable"></table>
-				<input id="addDeviceBtn" class="btn btn-primary" type="submit" value="add new card"/>
+				<input id="addDeviceBtn" class="btn btn-primary" type="submit" value="新しいカードを追加"/>
 				<div class="progress progress-striped active">
 					<div class="progress-bar"  role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
 						<span class="sr-only">10sec</span>
@@ -194,19 +194,20 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title">new device's name</h4>
+								<h4 class="modal-title">新しいカードを追加</h4>
 							</div>
 							<div class="modal-body text-center">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label class="sr-only" for="setDeviceName">device name</label>
-										<input type="text" class="form-control" id="deviceName" placeholder="Enter device name">
+										<label class="sr-only" for="setDeviceName">カード名</label>
+										<input type="text" class="f
+										orm-control" id="deviceName" placeholder="Enter device name">
 									</div>
-									<button type="button" class="btn btn-primary" id="deviceNameSubmitBtn">submit</button>
+									<button type="button" class="btn btn-primary" id="deviceNameSubmitBtn">追加</button>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
 							</div>
 						</div><!-- modal content -->
 					</div><!-- modal dialog -->

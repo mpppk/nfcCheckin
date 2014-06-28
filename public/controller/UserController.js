@@ -24,18 +24,19 @@ $(function() {
             var self = this;
             this.userLogic.getUser(userID).done(function(data){
                 console.log(data.userName);
-                self.$find('#userName').prepend(data.userName);
+                self.$find('#userName').empty().prepend(data.userName + '<small></small>');
                 // self.$find('#userName').append($( data.userName + '<small>' + data.profile + '</small>'));
                 self.$find('#userName small').text(' ' + data.profile);
-                self.$find('#userLOCA').empty().append('LOCA: ' + data.coin);
-                self.$find('#userCheckinNum').empty().append('checkin of this month: ' + 12);
-                self.$find('#userCheckinTime').empty().append('checkin time');
+                self.$find('#userLOCA').empty().append('LOCA残高: ' + data.coin);
+                self.$find('#userCheckinNum').empty().append('今月のチェックイン回数: ' + 12);
+                self.$find('#userCheckinTime').empty().append('チェックイン時間');
             });
         },
         '#userLOCA click': function() {
             this.$find('#userLOCA').parent('div').next().toggle('fast');
             var data = {
-                labels : ["June 1","June 11","June 21","June 21","July l","July 11","July 21"],
+                labels : ["6/1","6/11","6/21","6/21","7/l","7/11","7/21"],
+                // labels : ["June 1","June 11","June 21","June 21","July l","July 11","July 21"],
                 datasets : [
                     {
                         fillColor : "rgba(151,187,205,0.5)",
@@ -52,7 +53,8 @@ $(function() {
         '#userCheckinNum click': function() {
             this.$find('#userCheckinNum').parent('div').next().toggle('fast');
             var data = {
-                labels : ["June 1","June 11","June 21","June 21","July l","July 11","July 21"],
+                labels : ["6/1","6/11","6/21","6/21","7/l","7/11","7/21"],
+                // labels : ["June 1","June 11","June 21","June 21","July l","July 11","July 21"],
                 datasets : [
                     {
                         fillColor : "rgba(151,187,205,0.5)",
@@ -92,7 +94,16 @@ $(function() {
                 }
             ]
             var ctx = $("#timeChart").get(0).getContext("2d");
-            new Chart(ctx).Doughnut(ddata);
+            // Doughnut.defaults = {
+            //     animationEasing : "easeOut"
+            // }
+            var option = {
+                animationEasing : "easeOutQuart"
+                // animationEasing : "easeOutBounce"
+            }
+
+
+            new Chart(ctx).Doughnut(ddata, option);
         },
         hide: function(){
             $(this.rootElement).hide('slow');

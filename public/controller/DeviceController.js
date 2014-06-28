@@ -29,7 +29,7 @@ $(function() {
         intervalID: 0,
         json: null,
         __ready: function(){
-            $(this.rootElement).prepend($("<h1>").text('your devices'));
+            $(this.rootElement).prepend($("<h1>").text('登録カード一覧'));
             this.$find('.progress').hide('slow');
             // this.load();
         },
@@ -43,7 +43,7 @@ $(function() {
                 // var table =  $(this.rootElement).find($('deviceTable'));
                 for(var i = 0; i < len; i++) {
                     var cardName = data[i].card_name;
-                    if(data[i].card_name == null)   cardName = 'unknown card';
+                    if(data[i].card_name == null)   cardName = '名称未登録';
                     table.append($("<tr>"));
                     var tr = table.find($('tr'));
                     tr = tr.eq(i);
@@ -54,7 +54,7 @@ $(function() {
             });
         },
         syncFailue: function(){
-            console.log('sync failued');
+            console.log('カードの登録に失敗しました');
         },
         '#addDeviceBtn click': function() {
             // syncを実行中の場合は中断処理
@@ -73,8 +73,8 @@ $(function() {
             this.$find('.progress').show('slow');
             this.$find('#progressMsg').empty();
             this.$find('#progressMsg').append($('<div>').attr({class:'alert text-centor'})
-                .text('touch device to PaSoRi'));
-            this.$find('#addDeviceBtn').attr({value:'cancel', class:'btn'});
+                .text('登録するカードをかざしてください'));
+            this.$find('#addDeviceBtn').attr({value:'中止', class:'btn'});
             this.intervalID = setInterval(function(){stepProgress();}, 100);
             var stepProgress = function(){
                 var progressBar = self.$find('.progress-bar');
@@ -87,7 +87,7 @@ $(function() {
                     self.stopSync();
                     // self.$find('.progress').hide('slow');
                     self.$find('#progressMsg').append($('<div>').attr({class:'alert alert-danger text-centor'})
-                        .text('failed to find the card. please try again.')).hide().show('slow');
+                        .text('カードを見つけられませんでした。もう一度やり直してください')).hide().show('slow');
                     // self.$find('#addDeviceBtn').attr({value:'add new card', class:'btn btn-primary'});
                 }
             }
@@ -100,7 +100,7 @@ $(function() {
             clearInterval(this.intervalID);
             this.$find('.progress').hide('slow');
             this.$find('#progressMsg').empty();
-            this.$find('#addDeviceBtn').attr({value:'add new card', class:'btn btn-primary'});
+            this.$find('#addDeviceBtn').attr({value:'新しいカードを追加', class:'btn btn-primary'});
         },
 
         // 他のユーザが同期を始めていた場合の処理
@@ -108,7 +108,7 @@ $(function() {
             // this.$find('#progressMsg').empty().append($('<div>').attr({class:'alert alert-warning text-centor'})
             //     .text('other user syncing. please try again later.');
             this.$find('#progressMsg').empty().append($('<div>').attr({class:'alert alert-warning text-centor'})
-                .text('other user is syncing now. please try again later.'));
+                .text('他のユーザーが同期中です。時間をおいてもう一度試してください。'));
         },
 
         detectDevice: function(json){

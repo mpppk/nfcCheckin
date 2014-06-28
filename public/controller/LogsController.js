@@ -25,7 +25,7 @@ $(function() {
         __name: 'logsController',
         // __templates: 'h5views/logs.ejs',
         __ready: function(){
-            $(this.rootElement).prepend($('<h1>').text('recent logs'));
+            $(this.rootElement).prepend($('<h1>').text('ログ履歴'));
             this.load();
         },
 

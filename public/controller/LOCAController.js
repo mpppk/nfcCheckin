@@ -23,7 +23,7 @@ $(function() {
 
         load: function(){
             var self = this;
-            $(this.rootElement).prepend($("<h1>").text('LOCA Logs'));
+            $(this.rootElement).prepend($("<h1>").text('LOCA 使用履歴'));
             this.LOCALogic.getLOCALog(tempLoginUserID).done(function(data){
                 var len = data.length;
                 var table =  self.$find('#locaTable');
@@ -54,6 +54,30 @@ $(function() {
                 }
 
             });
+        },
+        updateTable: function(data){
+            var table =  this.$find('#locaTable');
+            var name = data.name;
+            var className = '';
+            switch (data.type){
+              case 'payment':
+                className = 'danger';
+                break;
+              case 'deposit':
+                className = 'success';
+                break;
+              case 'charge':
+                className = 'warning';
+                break;
+            }
+            table.prepend($('<tr class=' + className + '>'));
+            var tr = table.find($('tr:first-child'));
+            tr.hide();
+            tr.append($('<td>').text(name));
+            tr.append($('<td>').text(data.datetime));
+            tr.append($('<td>').text('￥' + data.price));
+            tr.append($('<td>').text(data.type));
+            tr.show('fast');
         },
         '#locaAllBtn click': function(){
             this.$find('.danger').show('fast');

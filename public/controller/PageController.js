@@ -72,6 +72,12 @@ $(function() {
                 }
             });
 
+            this.mySocket.on('LOCAChanged', function(data){
+                if(tempLoginUserID == data.userID){
+                    self._LOCAController.updateTable(data);
+                }
+            });
+
             // var self = this;
             // pageController.mySocket.on('addLog', function(){
             //     self.addLog(data);
@@ -87,44 +93,44 @@ $(function() {
         '{rootElement} moveToLogs': function(){
             this.hideWithout(this._logsController);
             $.sidr('close', 'sidr');
-            this._navController.changeTitle('Logs');
+            this._navController.changeTitle('使用履歴');
             // ログ画面以外のDOM要素を隠す処理
         },
         '{rootElement} moveToStatus': function(){
             $.sidr('close', 'sidr');
             this._userController.load(tempLoginUserID);
             this.hideWithout(this._userController);
-            this._navController.changeTitle('Status');
+            this._navController.changeTitle('ユーザー情報');
         },
         '{rootElement} moveToLOCA': function(){
             this.hideWithout(this._LOCAController);
             $.sidr('close', 'sidr');
-            this._navController.changeTitle('LOCA');
+            this._navController.changeTitle('LOCA情報');
         },
-        '{rootElement} moveToPayment': function(){
-            this.hideWithout(this._paymentController);
-            $.sidr('close', 'sidr');
-            this._navController.changeTitle('Payment');
-        },
-        '{rootElement} moveToDeposit': function(){
-            this.hideWithout(this._depositController);
-            $.sidr('close', 'sidr');
-            this._navController.changeTitle('Deposit');
-        },
+        // '{rootElement} moveToPayment': function(){
+        //     this.hideWithout(this._paymentController);
+        //     $.sidr('close', 'sidr');
+        //     this._navController.changeTitle('Payment');
+        // },
+        // '{rootElement} moveToDeposit': function(){
+        //     this.hideWithout(this._depositController);
+        //     $.sidr('close', 'sidr');
+        //     this._navController.changeTitle('Deposit');
+        // },
         '{rootElement} moveToLogin': function(){
             this.hideWithout(this._loginController);
-            this._navController.changeTitle('Login');
+            this._navController.changeTitle('ログイン');
         },
         '{rootElement} moveToCalendar': function(){
             this.hideWithout(this._calendarController);
             $.sidr('close', 'sidr');
-            this._navController.changeTitle('Calendar');
+            this._navController.changeTitle('カレンダー');
         },
         '{rootElement} moveToDevice': function(){
             this._deviceController.load(tempLoginUserID);
             this.hideWithout(this._deviceController);
             $.sidr('close', 'sidr');
-            this._navController.changeTitle('Device');
+            this._navController.changeTitle('カード情報');
         },
 
         hideWithout: function(controller){// 引数に指定した要素以外の各ページに対応するDOM要素を全部隠す

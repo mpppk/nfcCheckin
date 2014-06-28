@@ -58,7 +58,6 @@ exports.touch = function(req, res){
 	// cardName, checkinNum, userName, IDm, checkinTime
 	io.sockets.emit('touched', req.body.json);
 	if(isSyncMode){
-		// 本当は全員に投げる必要はないけどとりあえず
 		syncSocket.emit('deviceFound', req.body.json);
 	}
 	res.send('touched');
@@ -114,7 +113,6 @@ exports.getLOCALogs = function(req, res){
 }
 
 exports.getLogsByUserID = function(req, res){
-	console.log('in /logs/userID');
 	var spawn = require('child_process').spawn;
 	var php = spawn('php', ['public/api/getCheckinLogByUserID.php', req.params.userid, dbName]);
 	php.stdout.on('data', function(data){
@@ -129,3 +127,19 @@ exports.getLogsByUserID = function(req, res){
 	});
 }
 
+exports.setLOCAData = function(req, res){
+	// DBに登録
+	var date = new Date();
+	var month = ('0' + date.getMonth()).slice(-2);
+	var day = ('0' + date.getDate()).slice(-2);
+	var datetime = date.getFullYear() + '-' + month + '-' + day;
+	var data = {
+		userID: req.params.user_id,
+		name: req.params.name,
+		datetime: datetime,
+		price: req.params.price,
+		type: req.params.type
+	}
+	io.sockets.emit('LOCAChanged', data);
+	res.send('set loca data.\n');
+}

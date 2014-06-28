@@ -51,6 +51,7 @@ app.post('/touch', routes.touch);
 app.get('/user/:id([0-9]+)', routes.getUser);
 app.get('/device/:id([0-9]+)', routes.getDevice);
 app.get('/locaLog/:id([0-9]+)', routes.getLOCALogs);
+app.get('/loca/:type/:name/:price([0-9]+)/:user_id([0-9]+)', routes.setLOCAData);
 app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
 app.get('/locaOfMonth/:year([0-9]+)/:month([0-9]+)/:type', routes.getLOCAOfMonth);
 

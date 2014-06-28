@@ -24,7 +24,7 @@ exports.getLogs = function(req, res){
 // 指定されたidのユーザ情報を返す
 exports.getUser = function(req, res){
 	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getUser.php ', req.params.id, dbName]);
+	var php = spawn('php', ['public/api/getUser.php', req.params.id, dbName]);
 	php.stdout.on('data', function(data){
 		res.send(data);
 	});
@@ -40,7 +40,7 @@ exports.getUser = function(req, res){
 // 指定されたidのユーザが登録しているデバイスの情報を返す
 exports.getDevice = function(req, res){
 	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getDevice.php ', req.params.id, dbName]);
+	var php = spawn('php', ['public/api/getDevice.php', req.params.id, dbName]);
 	php.stdout.on('data', function(data){
 		res.send(data);
 	});

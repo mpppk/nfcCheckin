@@ -12,7 +12,11 @@ $(function() {
         _LOCAController: LOCAController,
         _deviceController: deviceController,
 
-        mySocket: io.connect('http://192.168.33.10:3000'),
+        serverIP: 'http://' + location.host + ':' + location.port,
+
+        mySocket: io.connect(this.serverIP),
+        // mySocket: io.connect('http://192.168.33.10:3000'),
+        // mySocket: io.connect('http://192.168.33.10:3000'),
         // helloSocket: io.connect('http://192.168.33.10:3000'),
         __meta:{
             _helloWorldController:{

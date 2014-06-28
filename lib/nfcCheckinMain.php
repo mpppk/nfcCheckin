@@ -1,6 +1,9 @@
 <?php
 $rootPass = dirname(__FILE__). '/../';
-$domainName = 'http://192.168.33.10:3000/';
+$domainName = 'http://0.0.0.0:3000/';
+// $domainName = 'http://192.168.33.10:3000/';
+// echo $_SERVER[ 'SERVER_ADDR' ];
+var_dump($_SERVER);
 // require_once 'PHPUnit/Autoload.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Mapper/UserMapper.php';

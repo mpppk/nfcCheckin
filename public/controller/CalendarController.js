@@ -86,6 +86,10 @@ $(function() {
                 dfd.reject(error.message);
             });
             return dfd.promise();
+        },
+        // 各日付ごとのBillを格納した連想配列を返す
+        getBillOfEachDay: function(year, month){
+
         }
     };
 
@@ -93,7 +97,7 @@ $(function() {
         __name: 'calendarController',
         _cmodalController: cmodalController,
         calendarLogic: calendarLogic,
-        // __templates: 'h5views/logs.ejs',
+        __templates: 'h5views/checkinMember.ejs',
         __ready: function(){
             var self = this;
             // fullcalendar
@@ -101,21 +105,34 @@ $(function() {
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end) {
+                    self.$find('#calendarInfo').find($('h1')).text(start.format('YYYY-MM-DD') + 'にチェックインしていたユーザー');
                     self.$find('#calendarInfo').show('fast');
-                    self.calendarLogic.getCheckinMember(start).done(function(data){
-                            self.$find('#calendarInfo').find($('h1')).text(start.format('YYYY-MM-DD') + 'にチェックインしていたユーザー');
-                            var table = self.$find('#checkinMemberTable');
-                            table.empty();
-                            var len = data.length;
-                            for(var i = 0; i < len; i++) {
-                                var userName = data[i].user_name;
-                                if(data[i].user_name == null)   userName = 'unknown';
-                                table.append($('<tr>'));
-                                var tr = table.find($('tr'));
-                                tr = tr.eq(i);
-                                tr.append($('<td>').text(userName));
-                                tr.append($('<td>').text('test'));
+                    self.calendarLogic.getBillOfMonth(2014, 6).done(function(charges){
+                        self.calendarLogic.getCheckinMember(start).done(function(data){
+                            console.log(data);
+                            self.$find('#checkinMemberPanel').empty().hide();
+                            for(var i = 0; i < data.length; i++) {
+                                var panelType = 'panel-danger';
+                                if(data[i].user_id == tempLoginUserID){
+                                    panelType = 'panel-info';
+                                }
+                                self.view.append('#checkinMemberPanel', 'checkinMemberPanel', {name: data[i].user_name, id: data[i].user_id, panelType: panelType});
+
                             }
+                            console.log(charges);
+                            // この月のchargesを順番に見て、選択した日付ならばテーブルに追加
+                            for(var i = 0; i < charges.length; i++) {
+                                if(charges[i].datetime == start.format('YYYY-MM-DD')){
+                                    var table = self.$find('#calendarInfo div .panel[data-userID=' + charges[i].user_id + '] table');
+                                    // var table = self.$find('#checkinMemberPanel div[data-userID=' + charges[i].user_id + '] .chargeTable');
+                                    table.prepend($('<tr>'));
+                                    var tr = table.find('tr:eq(0)');
+                                    tr.append($('<td>').text(charges[i].name));
+                                    tr.append($('<td>').text(charges[i].price));
+                                }
+                            }
+                            self.$find('#checkinMemberPanel').show('fast');
+                        });
                     });
                     g_start = start;
                     g_end = end;
@@ -123,6 +140,7 @@ $(function() {
             });
             this.arrangeCheckinEvent();
             this.setCheckinBackground();
+            // this.showMemberPanel();
         },
         arrangeCheckinEvent: function(){
             var self = this;
@@ -137,7 +155,7 @@ $(function() {
             // billを配置する
             this.calendarLogic.getBillOfMonthEv(2014, 6).done(function(data){
                 for(var i = 0; i < data.length; i++){
-                    calendar.fullCalendar('renderEvent', data[i]);
+                    calendar.fullCalendar('renderEvent', data[i], true);
                 }
             });
         },

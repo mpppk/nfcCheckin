@@ -33,12 +33,10 @@ $(function() {
             this.$find('#chargeNameInput').val("");
             this.$find('#chargeInput').val("");
             this.$find('#auto_modal').modal('hide');
-
-
             // message表示
             self.$find('.alert').remove();
             this.$find('#calendarInfo').prepend($('<div>').hide().attr({class:'alert alert-success text-centor'})
-                .text('you succeeded adding bill.'));
+                .text('追加しました'));
             self.$find('.alert').show('fast');
             setTimeout(function(){
                 self.$find('.alert').hide('slow');

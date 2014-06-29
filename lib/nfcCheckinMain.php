@@ -3,10 +3,10 @@ $rootPass = dirname(__FILE__). '/../';
 $domainName = 'http://0.0.0.0:3000/';
 // $domainName = 'http://192.168.33.10:3000/';
 // echo $_SERVER[ 'SERVER_ADDR' ];
-var_dump($_SERVER);
 // require_once 'PHPUnit/Autoload.php';
 require_once $rootPass. 'lib/db/Mapper/CheckinLogMapper.php';
 require_once $rootPass. 'lib/db/Mapper/UserMapper.php';
+require_once $rootPass. 'lib/db/Model/User.php';
 require_once $rootPass. 'lib/db/Mapper/IDmMapper.php';
 require_once $rootPass. 'lib/db/Model/CheckinLog.php';
 require_once $rootPass. 'lib/db/dbfunctions.php';
@@ -39,25 +39,19 @@ while (true) {
 	if(!isset($result['IDm']))	continue;
 	
 	$dbfacade = DBFacade::I($pdo);
-	$log = $dbfacade->checkin($result['IDm']);
-	// var_dump($log);
-	$idm = $imapper->findByIDm($log->idm_id);
+	$log = $dbfacade->checkin($result['IDm']); 
+	$idm = $imapper->find($log->idm_id);
+	$idmArray = $idm->toArray();
 	$postData = array();
+	var_dump($idm);
 	if($idm != NULL){
 		$postData += array('cardName' => $idm->card_name);
 		$postData += array('checkinNum' => $idm->checkin_num);
-		$user = $umapper->find($idm->$user_id);
+		$user = $umapper->find($idm->user_id);
 		$postData += array('userName' => $user->user_name);
 	}
-	// echo 'time: '. $log->checkin_time;
-	// $postData += array('checkinTime' => 'today');
 	$postData += array('IDm' => $result['IDm']);
 	$postData += array('checkinTime' => $log->checkin_time);
-	var_dump($postData);
-
-	// $postData['userName'] = $user->user_name;
-	// $postData['checkinTime'] = $log->checkin_time;
-
 	$result = file_get_contents(
 		$domainName. "touch",
 		false,

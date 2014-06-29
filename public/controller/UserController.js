@@ -110,7 +110,7 @@ $(function() {
         },
         show: function(){
             $(this.rootElement).show('slow');
-            // var myNewChart = new Chart(ctx);
+            
         }
     }
     h5.core.expose(userController);

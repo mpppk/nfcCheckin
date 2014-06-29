@@ -1,5 +1,8 @@
 var express = require('express');
+var session = require('express-session');
 var bodyParser = require('body-parser');
+// var cookieParser = require('cookie-parser');
+
 var methodOverride = require('method-override');
 var http = require('http');
 routes = require('./routes/main.js');
@@ -9,35 +12,44 @@ var passport = require('passport')
 , LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function(user, done){
-		done(null, user.email);
+	// userIDのみを格納する
+	var userInfo = usernameToID(user.username, 'sample');
+	console.log(userInfo);
+	console.log('serialize ' + user.username);
+	done(null, user.username);
 });
 
-passport.deserializeUser(function(user, done){
-		done(null, user.email);
+passport.deserializeUser(function(username, done){
+	console.log('deserialize ' + username);
+	done(null, username + ' hogehoge');
 });
 
 passport.use(new LocalStrategy(
 	function(username, password, done) {
-		User.findOne({ username: username }, function(err, user) {
-			console.log('in user.findOne callback');
-			if (err) { return done(err); }
-			if (!user) {
-				return done(null, false, { message: 'Incorrect username.' });
-			}
-			if (!user.validPassword(password)) {
-				return done(null, false, { message: 'Incorrect password.' });
-			}
-			return done(null, user);
-		});
+		var user = {username: username, password: password}
+		return done(null, user);
+		// User.findOne({ username: username }, function(err, user) {
+		// 	console.log('in user.findOne callback');
+		// 	if (err) { return done(err); }
+		// 	if (!user) {
+		// 		return done(null, false, { message: 'Incorrect username.' });
+		// 	}
+		// 	if (!user.validPassword(password)) {
+		// 		return done(null, false, { message: 'Incorrect password.' });
+		// 	}
+		// 	return done(null, user);
+		// });
 	}
 ));
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use(session({secret: 'keyboard cat'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride());
+// app.use(cookieParser);
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
@@ -114,4 +126,22 @@ io.sockets.on('connection', function (socket) {
 		// 		// log('disconnected');
 		// });
 });
+
+function usernameToID(username, db){
+	var spawn = require('child_process').spawn;
+	var php = spawn('php', ['public/api/getUser.php', username, db]);
+	php.stdout.on('data', function(data){
+		console.log('got data');
+		cosole.log(data);
+		return data;
+	});
+
+	php.stderr.on('data', function(data){
+		console.log('got data failue');
+		return data;
+	});
+
+	php.on('exit', function(code){
+	});
+}
 

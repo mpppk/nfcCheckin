@@ -1,7 +1,7 @@
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-// var cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser');
 
 var methodOverride = require('method-override');
 var http = require('http');
@@ -12,22 +12,46 @@ var passport = require('passport')
 , LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function(user, done){
-	// userIDのみを格納する
-	var userInfo = usernameToID(user.username, 'sample');
-	console.log(userInfo);
-	console.log('serialize ' + user.username);
-	done(null, user.username);
-});
+	done(null, user.userID);
+	// var exec = require('child_process').exec;
+	// console.log('name ' + user.username);
+	// var str = 'php public/api/getUserByName.php ' + user.username + ' sample';
+	// var child = exec(str , function(err, stdout, stderr) {
+	//   console.log(user.username);
+	//   if (!err) {
+	//   	var data = JSON.parse(stdout);
+	//   	console.log(data);
+	// 	done(null, data.user_id);
+	//   }
+	// });
 
-passport.deserializeUser(function(username, done){
-	console.log('deserialize ' + username);
-	done(null, username + ' hogehoge');
+	// usernameToID(user.username, 'sample', done);
+});
+passport.deserializeUser(function(userID, done){
+	var exec = require('child_process').exec;
+	var str = 'php public/api/getUser.php ' + userID + ' sample';
+	var child = exec(str , function(err, stdout, stderr) {
+	  var data;
+	  if (!err) {
+	  	data = JSON.parse(stdout);
+	  }
+	  done(null, data);
+	});
 });
 
 passport.use(new LocalStrategy(
 	function(username, password, done) {
+		console.log('in strategy');
 		var user = {username: username, password: password}
-		return done(null, user);
+		var exec = require('child_process').exec;
+		var str = 'php public/api/getUserByName.php ' + user.username + ' sample';
+		var child = exec(str , function(err, stdout, stderr) {
+		  if (!err) {
+		  	var data = JSON.parse(stdout);
+		  	user.userID = data.user_id;
+		  }
+		  return done(null, user);
+		});
 		// User.findOne({ username: username }, function(err, user) {
 		// 	console.log('in user.findOne callback');
 		// 	if (err) { return done(err); }
@@ -67,6 +91,8 @@ app.get('/loca/:type/:name/:price([0-9]+)/:user_id([0-9]+)', routes.setLOCAData)
 app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCheckinMember);
 app.get('/locaOfMonth/:year([0-9]+)/:month([0-9]+)/:type', routes.getLOCAOfMonth);
 
+app.get('/login', routes.getLoginData);
+app.get('/logout', routes.logout);
 app.post('/login',
 passport.authenticate('local', { successRedirect: '/',
 	 failureRedirect: '/',
@@ -127,21 +153,15 @@ io.sockets.on('connection', function (socket) {
 		// });
 });
 
-function usernameToID(username, db){
-	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getUser.php', username, db]);
-	php.stdout.on('data', function(data){
-		console.log('got data');
-		cosole.log(data);
-		return data;
-	});
-
-	php.stderr.on('data', function(data){
-		console.log('got data failue');
-		return data;
-	});
-
-	php.on('exit', function(code){
-	});
-}
+// function usernameToID(username, db, done){
+// 	console.log('in usernameToID');
+// 	var exec = require('child_process').exec;
+// 	var str = 'php public/api/getUserByName.php ' + username + ' ' + db;
+// 	var child = exec(str , function(err, stdout, stderr) {
+// 	  if (!err) {
+// 	  	var data = JSON.parse(stdout);
+// 		done(null, data.user_id);
+// 	  }
+// 	});
+// }
 

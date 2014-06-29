@@ -4,6 +4,25 @@ exports.index = function(req, res){
 	res.render('index', { title: 'Express' });
 };
 
+exports.getLoginData = function(req, res){
+	var user = req.user;
+	if(user === undefined){
+		res.end('{\"isLogin\":false}');
+	}else{
+		// var data = JSON.parse(req.user);
+		// console.log(data);
+		var json = {
+			isLogin: true,
+			userID: req.user.userId,
+			userName: req.user.userName
+		}
+		var retJson = JSON.stringify(json);
+		// var retJson = '{\"isLogin\":true,\"userID\":' + req.user.userId + '}';
+		console.log(retJson);
+		res.end(retJson);
+	}
+}
+
 exports.getLogs = function(req, res){
 	var spawn = require('child_process').spawn;
 	var php = spawn('php', ['public/api/getLog.php', dbName]);
@@ -23,6 +42,10 @@ exports.getLogs = function(req, res){
 
 // 指定されたidのユーザ情報を返す
 exports.getUser = function(req, res){
+	console.log('req.session');
+	console.log(req.session);
+	console.log('req.user');
+	console.log(req.user);
 	var spawn = require('child_process').spawn;
 	var php = spawn('php', ['public/api/getUser.php', req.params.id, dbName]);
 	php.stdout.on('data', function(data){
@@ -68,7 +91,7 @@ exports.getCheckinMember = function(req, res){
 	var day = ('0' + req.params.day).slice(-2);
 	var date = req.params.year + '-' + month + '-' + day;
 	var spawn = require('child_process').spawn;
-	var php = spawn('php', ['public/api/getCheckinMember.php', date, dbName]);
+	var php = spawn('php', ['publicj/api/getCheckinMember.php', date, dbName]);
 	php.stdout.on('data', function(data){
 		res.send(data);
 	});
@@ -143,3 +166,10 @@ exports.setLOCAData = function(req, res){
 	io.sockets.emit('LOCAChanged', data);
 	res.send('set loca data.\n');
 }
+
+exports.logout = function(req, res){
+	req.user = null;
+	req.session.destroy();
+	routes.index(req, res);
+}
+

@@ -67,8 +67,12 @@
 				<ul class="nav navbar-nav">
 					<li><a id="simple-menu" href="#sidr"><span class="glyphicon glyphicon-th"></span> メニュー</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right" id="loginUl">
 					<li><a id="loginbtn" href="#login"><span class="glyphicon glyphicon-log-in"> ログイン</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" id="logoutUl">
+					<li><a id="loginMessage"></a></li>
+					<li><a id="logoutbtn" href=""><span class="glyphicon glyphicon-log-in"> ログアウト</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -219,7 +223,7 @@
 		</div><!-- #container -->
 
 		<div id="login">
-			<form action="/login" method="post">
+			<form action="/login" method="post" id="loginForm">
 					<div>
 						<input type="text" name="username"/>
 					</div>

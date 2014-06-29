@@ -9,7 +9,15 @@ $(function() {
         },
 
         loginLogic: loginLogic,
-
+        changeView: function(isLogin){
+            if(isLogin){
+                this.$find('#loginForm').remove();
+            }else{
+                this.$find('#logout').remove();
+            }
+            this.$find('#simple-menu').sidr();
+            
+        },
         hide: function(){
             $(this.rootElement).hide('slow');
         },

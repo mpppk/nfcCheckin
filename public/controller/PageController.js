@@ -1,7 +1,25 @@
 $(function() {
-    var tempLoginUserID = 1;
+    // var this.user.userID = 1;
+
+    var pageLogic = {
+        __name: 'pageLogic',
+        getLoginData: function(){
+            var dfd = this.deferred();
+            $.getJSON("/login").done(function(data){
+                console.log(' getLoginData callback');
+                dfd.resolve(data);
+            }).fail(function(error) {
+                console.log('error');
+                console.log(error.message);
+                dfd.reject(error.message);
+            });
+            return dfd.promise();
+        }
+    };
+
     var pageController = {
         __name: 'PageController',
+        pageLogic: pageLogic,
         _helloWorldController: helloWorldController,
         _logsController: logsController,
         _userController: userController,
@@ -11,8 +29,7 @@ $(function() {
         _calendarController: calendarController,
         _LOCAController: LOCAController,
         _deviceController: deviceController,
-
-        serverIP: 'http://' + location.host + ':' + location.port,
+        serverIP: 'http://' + location.host,
 
         mySocket: io.connect(this.serverIP),
         // mySocket: io.connect('http://192.168.33.10:3000'),
@@ -48,6 +65,7 @@ $(function() {
             }
 
         },
+        user: null,
         __ready: function(){
             var self = this;
             this.hideWithout(this._logsController);
@@ -71,21 +89,26 @@ $(function() {
             this.mySocket.on('updateUser', function(json){
                 // this.jsonの中身
                 // cardName, checkinNum, userName, IDm, checkinTime
-                if(tempLoginUserID == json.userID){
+                if(this.user.userID == json.userID){
                     self._logsController.updateUser(json);
                 }
             });
 
             this.mySocket.on('LOCAChanged', function(data){
-                if(tempLoginUserID == data.userID){
+                if(this.user.userID == data.userID){
                     self._LOCAController.updateTable(data);
                 }
             });
 
-            // var self = this;
-            // pageController.mySocket.on('addLog', function(){
-            //     self.addLog(data);
-            // });
+            // ログイン状態かどうか
+            this.pageLogic.getLoginData().done(function(data){
+                self.user = data;
+                console.log(self.user);
+                // login画面の表示をログイン状態かどうかによって変更
+                self._navController.changeLoginTitle(self.user);
+                self._loginController.changeView(self.user.isLogin);
+                // self._loginController.changeView(self.user.isLogin);
+            });
         },
         load: function(){
             this._logsController.load();
@@ -93,6 +116,11 @@ $(function() {
         addLog: function(data){
             console.log('posted json: ' + data);
             this._logsController.addLog(data);
+        },
+        '{rootElement} moveToLogin': function(){
+            this.hideWithout(this._loginController);
+            $.sidr('close', 'sidr');
+            this._navController.changeTitle('ログイン');
         },
         '{rootElement} moveToLogs': function(){
             this.hideWithout(this._logsController);
@@ -102,7 +130,7 @@ $(function() {
         },
         '{rootElement} moveToStatus': function(){
             $.sidr('close', 'sidr');
-            this._userController.load(tempLoginUserID);
+            this._userController.load(this.user.userID);
             this.hideWithout(this._userController);
             this._navController.changeTitle('ユーザー情報');
         },
@@ -111,19 +139,17 @@ $(function() {
             $.sidr('close', 'sidr');
             this._navController.changeTitle('LOCA情報');
         },
-        // '{rootElement} moveToPayment': function(){
-        //     this.hideWithout(this._paymentController);
-        //     $.sidr('close', 'sidr');
-        //     this._navController.changeTitle('Payment');
-        // },
-        // '{rootElement} moveToDeposit': function(){
-        //     this.hideWithout(this._depositController);
-        //     $.sidr('close', 'sidr');
-        //     this._navController.changeTitle('Deposit');
-        // },
         '{rootElement} moveToLogin': function(){
             this.hideWithout(this._loginController);
             this._navController.changeTitle('ログイン');
+            // $(this).prepend($('<div class="loginSuggest">').hide()
+            //     .attr({class:'alert alert-warning text-centor'}).text('ログインしてください'));
+            // self.$find('.loginSuggest').show('fast');
+            // setTimeout(function(){
+            //     self.$find('.loginSuggest').hide('slow').remove();
+            //     // self.$find('.alert').remove();
+            // }, 5000);
+
         },
         '{rootElement} moveToCalendar': function(){
             this.hideWithout(this._calendarController);
@@ -131,7 +157,8 @@ $(function() {
             this._navController.changeTitle('カレンダー');
         },
         '{rootElement} moveToDevice': function(){
-            this._deviceController.load(tempLoginUserID);
+            var self = this;
+            this._deviceController.load(self.user.userID);
             this.hideWithout(this._deviceController);
             $.sidr('close', 'sidr');
             this._navController.changeTitle('カード情報');

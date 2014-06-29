@@ -50,7 +50,8 @@ $(function() {
         },
 
         '#drawerDevice click': function() {
-            this.trigger('moveToDevice')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            this.trigger('moveToDevice');
         }
 
     }

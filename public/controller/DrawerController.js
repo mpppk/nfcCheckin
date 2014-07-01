@@ -26,34 +26,38 @@ $(function() {
         },
 
         '#drawerLogs click': function() {
-            this.trigger('moveToLogs')
+            this.trigger('moveToLogs');
         },
 
         '#drawerStatus click': function() {
-            this.trigger('moveToStatus')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            else{this.trigger('moveToStatus');}
         },
 
         '#drawerCalendar click': function() {
-            this.trigger('moveToCalendar')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            else{this.trigger('moveToCalendar');}
         },
 
         '#drawerLOCA click': function() {
-            this.trigger('moveToLOCA')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            else{this.trigger('moveToLOCA');}
         },
 
         '#drawerPayment click': function() {
-            this.trigger('moveToPayment')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            else{this.trigger('moveToPayment');}
         },
 
         '#drawerDeposit click': function() {
-            this.trigger('moveToDeposit')
+            if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
+            else{this.trigger('moveToDeposit');}
         },
 
         '#drawerDevice click': function() {
             if(!this.parentController.user.isLogin){this.trigger('moveToLogin'); }
-            this.trigger('moveToDevice');
+            else{this.trigger('moveToDevice');}
         }
-
     }
     h5.core.expose(drawerController);
 });

@@ -109,6 +109,8 @@ $(function() {
                 self._loginController.changeView(self.user.isLogin);
                 // self._loginController.changeView(self.user.isLogin);
             });
+
+            this.$find('#loginSuggest').hide();
         },
         load: function(){
             this._logsController.load();
@@ -117,11 +119,11 @@ $(function() {
             console.log('posted json: ' + data);
             this._logsController.addLog(data);
         },
-        '{rootElement} moveToLogin': function(){
-            this.hideWithout(this._loginController);
-            $.sidr('close', 'sidr');
-            this._navController.changeTitle('ログイン');
-        },
+        // '{rootElement} moveToLogin': function(){
+        //     this.hideWithout(this._loginController);
+        //     $.sidr('close', 'sidr');
+        //     this._navController.changeTitle('ログイン');
+        // },
         '{rootElement} moveToLogs': function(){
             this.hideWithout(this._logsController);
             $.sidr('close', 'sidr');
@@ -140,16 +142,14 @@ $(function() {
             this._navController.changeTitle('LOCA情報');
         },
         '{rootElement} moveToLogin': function(){
+            var self = this;
             this.hideWithout(this._loginController);
             this._navController.changeTitle('ログイン');
-            // $(this).prepend($('<div class="loginSuggest">').hide()
-            //     .attr({class:'alert alert-warning text-centor'}).text('ログインしてください'));
-            // self.$find('.loginSuggest').show('fast');
-            // setTimeout(function(){
-            //     self.$find('.loginSuggest').hide('slow').remove();
-            //     // self.$find('.alert').remove();
-            // }, 5000);
-
+            this.$find('#loginSuggest').text('ログインしてください。').show('fast');
+            setTimeout(function(){
+                self.$find('#loginSuggest').hide('fast');
+            }, 5000);
+            $.sidr('close', 'sidr');
         },
         '{rootElement} moveToCalendar': function(){
             this.hideWithout(this._calendarController);

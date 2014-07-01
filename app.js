@@ -48,7 +48,15 @@ passport.use(new LocalStrategy(
 		var child = exec(str , function(err, stdout, stderr) {
 		  if (!err) {
 		  	var data = JSON.parse(stdout);
+		  	// 入力されたユーザが存在するかチェック
+		  	console.log(data);
+		  	if(!data.user_id){
+		  		return done(null, false, { message: 'Incorrect username.' });
+		  	}
 		  	user.userID = data.user_id;
+		  }else{
+		  	console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!');
+			return done(null, false, { message: 'Incorrect username.' });
 		  }
 		  return done(null, user);
 		});
@@ -73,7 +81,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride());
-// app.use(cookieParser);
+app.use(flash());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
@@ -92,11 +101,12 @@ app.get('/checkinMember/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)', routes.getCh
 app.get('/locaOfMonth/:year([0-9]+)/:month([0-9]+)/:type', routes.getLOCAOfMonth);
 
 app.get('/login', routes.getLoginData);
+app.get('/loginFailue', routes.loginFailue);
 app.get('/logout', routes.logout);
 app.post('/login',
 passport.authenticate('local', { successRedirect: '/',
 	 failureRedirect: '/',
-	 failureFlash: false })
+	 failureFlash: true })
 );
 
 var server = http.createServer(app);

@@ -1,26 +1,32 @@
 var dbName = 'sample';
 
 exports.index = function(req, res){
-	res.render('index', { title: 'Express' });
+	res.render('index');
+	// res.render('index', { title: 'Express' });
 };
 
 exports.getLoginData = function(req, res){
 	var user = req.user;
+	var json = {};
 	if(user === undefined){
-		res.end('{\"isLogin\":false}');
+		json.isLogin = false;
+		// res.end('{\"isLogin\":false}');
 	}else{
-		// var data = JSON.parse(req.user);
-		// console.log(data);
-		var json = {
+		json = {
 			isLogin: true,
 			userID: req.user.userId,
 			userName: req.user.userName
 		}
-		var retJson = JSON.stringify(json);
-		// var retJson = '{\"isLogin\":true,\"userID\":' + req.user.userId + '}';
-		console.log(retJson);
-		res.end(retJson);
 	}
+	// ログイン失敗など、メッセージが入っていれば格納
+	if(req.session !== undefined){
+		json.messages = req.session.messages;
+	}
+
+	var retJson = JSON.stringify(json);
+	// var retJson = '{\"isLogin\":true,\"userID\":' + req.user.userId + '}';
+	console.log(retJson);
+	res.end(retJson);
 }
 
 exports.getLogs = function(req, res){
@@ -173,3 +179,7 @@ exports.logout = function(req, res){
 	routes.index(req, res);
 }
 
+exports.loginFailue = function(req, res){
+	req.session.messages('不正なユーザ名かパスワードです。');
+	res.redirect('/');
+}

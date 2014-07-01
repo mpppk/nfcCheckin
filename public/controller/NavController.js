@@ -21,7 +21,6 @@ $(function() {
                 console.log('hide loginUl');
                 this.$find('#loginUl').hide();
                 this.$find('#loginMessage').text(user.userName + ' でログイン中');
-                console.log(this.parentController.serverIP);
                 var logoutURL = this.parentController.serverIP + '/logout';
                 this.$find('#logoutbtn').attr({href: logoutURL});
                 // this.$find('.navbar-right #logoutList').remove();

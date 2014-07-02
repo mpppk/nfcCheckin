@@ -186,6 +186,10 @@ $(function() {
             this.$find('#auto_modal').modal('show');
             // $('#auto_modal').modal('show');
         },
+        '.fc-button click': function() {
+            console.log('fc-button clicked');
+            this.setCheckinBackground();
+        },
         '{rootElement} addBill': function(context){
             var table = this.$find('#calendarInfo div .panel[data-userID=' + tempLoginUserID + '] table');
             table.prepend($('<tr class=\"success\">'));

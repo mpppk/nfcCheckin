@@ -29,8 +29,6 @@ npm install
 ```
 
 # 実行
-注)まだちゃんと動かないので、testオプション必須です
-
 ```Shell
 sudo php nfcCheckin/lib/nfcCheckinMain.php sample // icカードを待ち受けるプログラム
 node app.js // サーバの立ち上げ　3000番ポートで待ち受ける nfcCheckinMain.phpと別のターミナルで同時に実行する

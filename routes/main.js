@@ -180,6 +180,6 @@ exports.logout = function(req, res){
 }
 
 exports.loginFailue = function(req, res){
-	req.session.messages('不正なユーザ名かパスワードです。');
+	// req.session.messages('不正なユーザ名かパスワードです。');
 	res.redirect('/');
 }

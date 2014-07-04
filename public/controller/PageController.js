@@ -95,7 +95,7 @@ $(function() {
             });
 
             this.mySocket.on('LOCAChanged', function(data){
-                if(this.user.userID == data.userID){
+                if(self.user.userID == data.userID){
                     self._LOCAController.updateTable(data);
                 }
             });

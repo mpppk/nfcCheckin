@@ -18,7 +18,7 @@ function getPDO($env=null) {
             $conf['pass'],
             array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_CLASS,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_CLASS
             )
         );
         //SQLiteで外部キー制約を有効にする

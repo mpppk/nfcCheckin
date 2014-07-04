@@ -8,7 +8,7 @@ http://www6063ue.sakura.ne.jp/nfccheckin/wordpress/
 ## ハードウェア
 * Linuxマシン
 * PaSorRi(icカードリーダー)
-* webカメラ
+* webカメラ(貯金箱入金機能を利用する場合のみ)
 
 ## 依存ライブラリ
 * php5
@@ -16,6 +16,7 @@ http://www6063ue.sakura.ne.jp/nfccheckin/wordpress/
 * sqlite
 * Node.js
 * npm
+* opencv(貯金箱機能を利用する場合のみ)
 
 ## nfcpyの依存ライブラリ
 * Python 2.6 or newer but not Python 3.x

@@ -1,4 +1,6 @@
 # NFC-Checkinとは
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mpppk/nfcCheckin.svg)](https://greenkeeper.io/)
 NFC-Checkinは、NFCを用いた入室管理を可能にするシステムです。ICカードをリーダーにかざすだけで入室処理が完了します。利用にはSUICA、ICOCAなどの交通系カード、免許証、学生証、スマートフォンなど、種類に限らずあらゆるICカードを統一的に扱うことができます。  またNFC-Checkinの機能を拡張するLOCAというプラグインを準備しました。これはNFC-Checkinで利用しているICカードにローカルな電子マネー機能を付与し、ユーザ間の面倒な金銭のやり取りを排除するためのプラグインです。 入室や支払いのログはNFC-CheckinのDBに保存されます。  
 これらのデータは、NFC-Checkinが提供するwebアプリケーションからアクセスし、追加、変更が可能です。NFC-Checkinが設置された場所のローカルネットワーク内ならどの端末からでもwebアプリケーションにアクセスできます。  
 詳細は以下のURLから確認してください。  
